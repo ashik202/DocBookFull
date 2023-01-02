@@ -6,6 +6,10 @@ import {LoginSchemas} from '../../schemas'
 import axiosInstance from '../../Axios/axiosPrivate';
 import {  useNavigate } from 'react-router-dom';
 
+
+import { useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
+import {userdata,login} from '../../redux/reducer/UserSlice';
 const initialValues={
     email:"",
     password:"",
@@ -13,6 +17,7 @@ const initialValues={
 
 export const UserLogin = () => {
     const Navigate=useNavigate();
+    const dispatch=useDispatch()
     const {values,errors,handleBlur,handleChange,handleSubmit}= useFormik({
         initialValues:initialValues,
         validationSchema:LoginSchemas,
@@ -24,14 +29,21 @@ export const UserLogin = () => {
                 });
                 if (response.status===200 && response.data.is_doctor===true)
                 {
-                    Navigate('/doctor_signup')
+                    dispatch(userdata(response.data));
+                    dispatch(login(response.data))
+                    Navigate('/doctor_dashbord')
                 }
                 if (response.status===200 && response.data.is_user===true)
                 {
-                    Navigate('/')
+                    console.log(response.data)
+                    dispatch(userdata(response.data));
+                    dispatch(login(response.data))
+
+
+                    Navigate('/user_dashbord')
                 }
 
-                console.log(response.data)
+               
             }catch{
                 alert('somethine went worn')
             }
@@ -45,9 +57,13 @@ export const UserLogin = () => {
     <h1 className="text-3xl font-semibold text-center text-gray-700 dark:text-black">Login</h1>
 
     <form className="mt-6" onSubmit={handleSubmit}>
-        <div>
-            <label  className="block text-sm text-gray-800 dark:text-black">Email</label>
-            <input name="email" id="email" type="text" className="block w-full px-4 p-2 mt-2 text-bg-white border rounded-lg dark: dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" 
+    <div className="mt-4">
+            <div className="flex items-center justify-between">
+                <label  className="block text-sm text-gray-800 dark:text-black">Email</label>
+                
+            </div>
+
+            <input name="email" id="email" type="email" className="block w-full px-4 p-2 mt-2 text-bg-white border rounded-lg dark: dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" 
             value={values.email} onChange={handleChange} onBlur={handleBlur}/>{<p className='Form_error'>{errors.email}</p>}
         </div>
 
@@ -80,7 +96,6 @@ export const UserLogin = () => {
 
     <div className="flex items-center mt-6 -mx-2">
         <button  className="flex items-center justify-center w-full px-6 py-2 mx-2 text-sm font-medium text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:bg-blue-400 focus:outline-none">
-           
 
             <span className="hidden mx-2 sm:inline">Sign in with Mobile</span>
         </button>
@@ -88,9 +103,11 @@ export const UserLogin = () => {
 
     </div>
     <br/>
-    <p>Are You A Doctor? Register Here</p>
+    <Link to="/doctor_signup">
+    <p>Are You A Doctor? Register Here</p></Link>
+    <Link to="/user_signup">
 
-    <p className="flex align-item-center mt-8 text-xs font-light text-center text-gray-400"> Don't have an account?Signup <a href="/" className="font-medium text-gray-700 dark:text-gray-200 hover:underline">Create One</a></p>
+    <p className="flex align-item-center mt-8 text-xs font-light text-center text-gray-400"> Don't have an account?Signup </p></Link>
 </div>
     </>
   )

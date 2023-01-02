@@ -33,8 +33,8 @@ export const Signup = () => {
               password: values.password,
               phone_number:values.phoneno
             });
-            if (response.status === 200 ) {
-              navigate('/userlogin');
+            if (response.status === 201 ) {
+              navigate('/user_login');
             } else {
               alert('not valid credentials');
             }

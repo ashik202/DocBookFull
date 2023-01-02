@@ -68,3 +68,26 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, add_label):
         return True
+
+
+class Docprofile(models.Model):
+    user=models.OneToOneField(Account,on_delete=models.CASCADE)
+    regno=models.IntegerField(blank=True,null=True)
+    specialization=models.CharField(max_length=100,blank=True)
+    clinic_name=models.CharField(max_length=100,blank=True)
+    Addressline1=models.CharField(max_length=100,blank=True)
+    Addressline2=models.CharField(max_length=100,blank=True)
+    link_of_map=models.CharField(max_length=50,blank=True)
+    district=models.CharField(max_length=30,blank=True)
+    state=models.CharField(max_length=50,blank=True)
+    completed=models.BooleanField(default=False)
+
+class ConsultingTime(models.Model):
+    user=models.ForeignKey(Account,on_delete=models.CASCADE)
+    date=models.CharField(blank=True,max_length=10)
+    time_start=models.CharField(blank=True,max_length=20)
+    time_end=models.CharField(blank=True,max_length=30)
+    totaltoken=models.IntegerField(blank=True)
+    token_booked=models.IntegerField(default=0)
+
+   

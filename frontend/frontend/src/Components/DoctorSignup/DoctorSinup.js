@@ -29,7 +29,7 @@ const DoctorSinup = () => {
                     password: values.password,
                     phone_number:values.phoneno
                   })
-                  if (response.status ===200){
+                  if (response.status ===201){
                     navigate('/')
                   }else {
                     alert('not valid credentials');
