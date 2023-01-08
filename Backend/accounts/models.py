@@ -82,12 +82,14 @@ class Docprofile(models.Model):
     state=models.CharField(max_length=50,blank=True)
     completed=models.BooleanField(default=False)
 
-class ConsultingTime(models.Model):
-    user=models.ForeignKey(Account,on_delete=models.CASCADE)
-    date=models.CharField(blank=True,max_length=10)
-    time_start=models.CharField(blank=True,max_length=20)
+class ConsultTime(models.Model):
+    user=models.ForeignKey(Account,on_delete=models.CASCADE,)
+    date=models.DateField(blank=True,max_length=50)
+    time_start=models.CharField(blank=True,max_length=50)
     time_end=models.CharField(blank=True,max_length=30)
-    totaltoken=models.IntegerField(blank=True)
+    totaltoken=models.IntegerField()
     token_booked=models.IntegerField(default=0)
+    def __str__(self):
+        return self.user.username
 
    

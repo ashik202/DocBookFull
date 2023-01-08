@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
-from accounts.models import Account,Docprofile,ConsultingTime
+from accounts.models import Account,Docprofile,ConsultTime
 
 
 
@@ -63,33 +63,7 @@ class RegisterSerilizer(serializers.ModelSerializer):
         user.save()
         return user
 
-class DoctorRegisterSerilizer(serializers.ModelSerializer):
-    class Meta:
-        model = Account
-        fields = ['first_name', 'last_name', 'email',
-                   'phone_number','password','is_user','is_doctor',]
-        extra_kwargs = {"password": {"write_only": True}}
 
-
-    def create(self, validate_data):
-        user = Account(
-            first_name=validate_data["first_name"],
-            last_name=validate_data["last_name"],
-            email=validate_data["email"],
-            phone_number=validate_data["phone_number"],
-            username=validate_data["email"].split('@')[0],
-            
-        )
-        
-        
-        
-        user.set_password(validate_data["password"])
-        user.is_active = True
-        user.is_user=False
-        user.is_doctor=True
-        user.save()
-        Docprofile.objects.create(user=user)
-        return user
 
 class DoctorProfileSerilizer(serializers.ModelSerializer):
     class Meta:
@@ -121,9 +95,64 @@ class DoctorProfileSerilizer(serializers.ModelSerializer):
             instance.save()
             return instance
 
-class ConsultingTimeSerializer(serializers.ModelSerializer):
-    user=DoctorRegisterSerilizer(many=True)
+class ConsultTimeSerializer(serializers.ModelSerializer):
+    
     class Meta:
-        model=ConsultingTime
-        fields='__all__'
-       
+        model=ConsultTime
+        fields=['id','token_booked','totaltoken','time_end','time_start','date']
+    def create(self, validated_data):
+
+        id=self.context.get("user_id")
+        print(id)
+        
+        consultingtime=ConsultTime(
+            user=Account.objects.get(pk=id),
+            date=validated_data["date"],
+            time_start=validated_data["time_start"],
+            time_end=validated_data["time_end"],
+            totaltoken=validated_data["totaltoken"]
+
+            )
+        consultingtime.save()
+        return consultingtime
+        
+    def update(self, instance, validated_data):
+        instance.token_booked=validated_data.get('token_booked',instance.token_booked)
+        instance.totaltoken=validated_data.get('totaltoken',instance.totaltoken)
+        instance.time_end=validated_data.get('time_end',instance.time_end)
+        instance.time_start=validated_data.get('time_start',instance.time_start)
+        instance.date=validated_data.get('date',instance.date)
+        instance.save()
+        return instance
+        
+
+
+
+class DoctorRegisterSerilizer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Account
+        fields = ['first_name', 'last_name', 'email',
+                   'phone_number','password','is_user','is_doctor',]
+        extra_kwargs = {"password": {"write_only": True}}
+
+
+    def create(self, validate_data):
+        user = Account(
+            first_name=validate_data["first_name"],
+            last_name=validate_data["last_name"],
+            email=validate_data["email"],
+            phone_number=validate_data["phone_number"],
+            username=validate_data["email"].split('@')[0],
+            
+        )
+        
+        
+        
+        user.set_password(validate_data["password"])
+        user.is_active = True
+        user.is_user=False
+        user.is_doctor=True
+        user.save()
+        Docprofile.objects.create(user=user)
+        return user

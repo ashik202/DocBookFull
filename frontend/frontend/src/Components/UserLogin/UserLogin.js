@@ -18,7 +18,7 @@ const initialValues={
 export const UserLogin = () => {
     const Navigate=useNavigate();
     const dispatch=useDispatch()
-    const {values,errors,handleBlur,handleChange,handleSubmit}= useFormik({
+    const {values,errors,touched,handleBlur,handleChange,handleSubmit}= useFormik({
         initialValues:initialValues,
         validationSchema:LoginSchemas,
         onSubmit:async (values,actions)=>{
@@ -64,7 +64,10 @@ export const UserLogin = () => {
             </div>
 
             <input name="email" id="email" type="email" className="block w-full px-4 p-2 mt-2 text-bg-white border rounded-lg dark: dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" 
-            value={values.email} onChange={handleChange} onBlur={handleBlur}/>{<p className='Form_error'>{errors.email}</p>}
+            value={values.email} onChange={handleChange} onBlur={handleBlur}/>
+           {errors.email && touched.email ? (
+                <p className='Form_error'>{errors.email}</p>
+              ) : null}
         </div>
 
         <div className="mt-4">
@@ -74,7 +77,10 @@ export const UserLogin = () => {
             </div>
 
             <input name="password" id="password" type="password" className="block w-full px-4 p-2 mt-2 text-bg-white border rounded-lg dark: dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" 
-            value={values.password} onChange={handleChange} onBlur={handleBlur}/>{<p className='Form_error'>{errors.password}</p>}
+            value={values.password} onChange={handleChange} onBlur={handleBlur}/>
+           {errors.password && touched.password ? (
+                <p className='Form_error'>{errors.password}</p>
+              ) : null}
         </div>
 
         <div className="mt-6">

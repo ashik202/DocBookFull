@@ -1,11 +1,17 @@
 import React from 'react'
 import DoctorDashbord from '../Components/DoctorDashbord/DoctorDashbord'
+import DoctotHeader from '../Components/DoctorDashbord/DoctotHeader'
 
 
 
 const DoctorDashbordpage = () => {
   return (
-    <><DoctorDashbord/>
+
+    <>
+    <DoctotHeader/>
+    <br/>
+    <br/>
+    <DoctorDashbord/>
     </>
   )
 }

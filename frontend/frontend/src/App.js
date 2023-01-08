@@ -12,6 +12,9 @@ import DoctorDetailpage from './Pages/DoctorDetailpage';
 import DoctorDashbordpage from './Pages/DoctorDashbordpage';
 import DoctorProinfoUpdatepage from './Pages/DoctorProinfoUpdatepage';
 import DoctorbasicInfoUpdate from './Components/DoctorProfileUpdate/DoctorbasicInfoUpdate';
+import AddConsultingtime from './Pages/AddConsultingtime';
+import { ViewConsultationtimePage } from './Pages/ViewConsultationtimePage';
+import EditConsultingtimePage from './Pages/EditConsultingtimePage';
 
 
 
@@ -26,6 +29,9 @@ function App() {
         <Route path="/doctor_dashbord" element={<DoctorDashbordpage/>} />
         <Route path="/doctor_professionalinfoUpdate" element={<DoctorProinfoUpdatepage/>}/>
         <Route path="/doctor_basicinfoUpdate" element={<DoctorbasicInfoUpdate/>}/>
+        <Route path="/doctor_addconsultingtime" element={<AddConsultingtime/>}/>
+        <Route path='/doctor_viewconsution' element={<ViewConsultationtimePage/>}/>
+        <Route path='/doctor_EditeCounsultingtime/:id' element={<EditConsultingtimePage/>}/>
       
       <Route path="/user_signup" element={ <UserSignupPage/> } />
       <Route path="/user_login" element={ <UserLogin/> } />
