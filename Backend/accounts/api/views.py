@@ -7,9 +7,12 @@ from accounts.models import Docprofile
 from rest_framework.parsers import JSONParser
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
-from .serializers import UserSerializerWithToken, RegisterSerilizer, DoctorRegisterSerilizer, UserProfileUpdate, DoctorProfileSerilizer, ConsultTimeSerializer
+from .serializers import UserSerializerWithToken, RegisterSerilizer, DoctorRegisterSerilizer, UserProfileUpdate, DoctorProfileSerilizer, ConsultTimeSerializer,AdminUserViewSerilizer,Userdoctorbookingserializer
 from rest_framework.views import APIView
 from accounts.models import Account, ConsultTime
+from accounts.Otpemail import *
+from django.db.models import F
+import datetime
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -44,8 +47,8 @@ class RegisterView(APIView):
         serializer = RegisterSerilizer(data=request.data)
         print(serializer)
         if serializer.is_valid():
-            print("hello")
             serializer.save()
+            send_otp_via_email(serializer.data['email'])
             data = serializer.data
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -53,13 +56,12 @@ class RegisterView(APIView):
 
 class DocRegisterView(APIView):
     def post(self, request, format=None):
-
         serializer = DoctorRegisterSerilizer(data=request.data)
         print(serializer)
         if serializer.is_valid():
             print("hello")
             serializer.save()
-
+            send_otp_via_email(serializer.data['email'])
             data = serializer.data
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -130,8 +132,8 @@ class counsalting_time(APIView):
 
     def post(self, request):
         user_id = request.data["id"]
-        serializer = ConsultTimeSerializer(
-            data=request.data, context={"user_id": user_id})
+        print(user_id)
+        serializer = ConsultTimeSerializer(data=request.data, context={"user_id": user_id})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -149,3 +151,60 @@ class singilcounsaltingtime(APIView):
             return Response(serilizer.data, status=status.HTTP_201_CREATED)
         return Response(serilizer.errors, status=status.HTTP_404_NOT_FOUND)
 
+class adminuserview(APIView):
+    def get(self,request):
+        data=Account.objects.filter(is_user=True)
+        if data is not None:
+            serializer=AdminUserViewSerilizer(data,many=True)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+    def post(self,request):
+        id=(request.data["id"])
+        user=Account.objects.get(pk=id)
+        if user.is_active==True:
+            user.is_active=False
+        else:
+            user.is_active=True
+        user.save()
+        serializer=AdminUserViewSerilizer(user)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+class admindoctorview(APIView):
+     def get(self,request):
+        data=Account.objects.filter(is_doctor=True)
+        if data is not None:
+            serializer=AdminUserViewSerilizer(data,many=True)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+     def post(self,request):
+        id=(request.data["id"])
+        user=Account.objects.get(pk=id)
+        if user.is_active==True:
+            user.is_active=False
+        else:
+            user.is_active=True
+        user.save()
+        serializer=AdminUserViewSerilizer(user)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+
+
+
+class optverification(APIView):
+    def post(self,request):
+
+        id=request.data["id"]
+        print(id)
+        user=Account.objects.get(pk=id)
+        if user.otp==request.data["otp"]:
+            user.is_active=True
+            user.save()
+            return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+class userconsultingtime(APIView):
+    def get(self,request):
+        start = datetime.date.today()
+        end = start + datetime.timedelta(days=45)
+        data=ConsultTime.objects.filter(token_booked__lt=F('totaltoken'),date__range=(start, end))
+        print(data)
+        selializer=Userdoctorbookingserializer(data,many=True)
+        return Response(selializer.data,status=status.HTTP_200_OK)

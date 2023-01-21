@@ -30,7 +30,8 @@ const DoctorSinup = () => {
                     phone_number:values.phoneno
                   })
                   if (response.status ===201){
-                    navigate('/')
+                    navigate(`/otpverification/${response.data.id}`);
+                    
                   }else {
                     alert('not valid credentials');
                   }

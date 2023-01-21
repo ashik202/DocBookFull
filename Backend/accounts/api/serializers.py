@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 from accounts.models import Account,Docprofile,ConsultTime
+from accounts.Otpemail import * 
 
 
 
@@ -42,7 +43,7 @@ class UserSerializerWithToken(UserSerializer):
 class RegisterSerilizer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'email',
+        fields = ['id','first_name', 'last_name', 'email',
                    'phone_number','password','is_user','is_doctor']
         extra_kwargs = {"password": {"write_only": True}}
 
@@ -54,10 +55,7 @@ class RegisterSerilizer(serializers.ModelSerializer):
             phone_number=validate_data["phone_number"],
             username=validate_data["email"].split('@')[0],
         )
-        
-        
         user.set_password(validate_data["password"])
-        user.is_active = True
         user.is_user=True
         user.is_doctor=False
         user.save()
@@ -95,18 +93,51 @@ class DoctorProfileSerilizer(serializers.ModelSerializer):
             instance.save()
             return instance
 
+class DoctorRegisterSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ['id','first_name', 'last_name', 'email',
+                   'phone_number','password','is_user','is_doctor',]
+        extra_kwargs = {"password": {"write_only": True}}
+
+
+    def create(self, validate_data):
+        user = Account(
+            first_name=validate_data["first_name"],
+            last_name=validate_data["last_name"],
+            email=validate_data["email"],
+            phone_number=validate_data["phone_number"],
+            username=validate_data["email"].split('@')[0],
+            
+        )
+        
+        
+        
+        user.set_password(validate_data["password"])
+        user.is_user=False
+        user.is_doctor=True
+        user.save()
+        Docprofile.objects.create(user=user)
+        return user
+
+
+
+
 class ConsultTimeSerializer(serializers.ModelSerializer):
+    
+   
     
     class Meta:
         model=ConsultTime
-        fields=['id','token_booked','totaltoken','time_end','time_start','date']
+        fields=['id','token_booked','totaltoken','time_end','time_start','date',]
     def create(self, validated_data):
 
         id=self.context.get("user_id")
-        print(id)
-        
+        print(id,'hello')
+        users=Account.objects.get(pk=id),
         consultingtime=ConsultTime(
             user=Account.objects.get(pk=id),
+            doctordetails=Docprofile.objects.get(user=id),
             date=validated_data["date"],
             time_start=validated_data["time_start"],
             time_end=validated_data["time_end"],
@@ -128,31 +159,22 @@ class ConsultTimeSerializer(serializers.ModelSerializer):
 
 
 
-class DoctorRegisterSerilizer(serializers.ModelSerializer):
-    
+class AdminUserViewSerilizer(serializers.ModelSerializer):
     class Meta:
-        model = Account
-        fields = ['first_name', 'last_name', 'email',
-                   'phone_number','password','is_user','is_doctor',]
-        extra_kwargs = {"password": {"write_only": True}}
+        model=Account
+        fields='__all__'
+        extra_kwargs = {"password": {"write_only":True}}
 
 
-    def create(self, validate_data):
-        user = Account(
-            first_name=validate_data["first_name"],
-            last_name=validate_data["last_name"],
-            email=validate_data["email"],
-            phone_number=validate_data["phone_number"],
-            username=validate_data["email"].split('@')[0],
-            
-        )
-        
-        
-        
-        user.set_password(validate_data["password"])
-        user.is_active = True
-        user.is_user=False
-        user.is_doctor=True
-        user.save()
-        Docprofile.objects.create(user=user)
-        return user
+class Userdoctorbookingserializer(serializers.ModelSerializer):
+    first_name=serializers.ReadOnlyField(source='user.first_name')
+    last_name=serializers.ReadOnlyField(source='user.last_name')
+    specialization=serializers.ReadOnlyField(source='doctordetails.specialization')
+    clinic_name=serializers.ReadOnlyField(source='doctordetails.clinic_name')
+    Addressline1=serializers.ReadOnlyField(source="doctordetails.Addressline1")
+    Addressline2=serializers.ReadOnlyField(source="doctordetails.Addressline2")
+    district=serializers.ReadOnlyField(source="doctordetails.district")
+
+    class Meta:
+        model=ConsultTime
+        fields=['date','time_start','time_end','token_booked','first_name','last_name','clinic_name','Addressline1','Addressline2','specialization','district']

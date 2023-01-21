@@ -47,6 +47,8 @@ class Account(AbstractBaseUser):
     phone_number = models.CharField(max_length=100, default='')
     is_doctor=models.BooleanField(default=False)
     is_user=models.BooleanField(default=False)
+    profile_picture=models.ImageField(blank=True,upload_to='userprofile',default='userprofile/252331.png')
+    otp=models.CharField(max_length=6,null=True,blank=True)
     # required
     date_joined = models.DateField(auto_now_add=True)
     last_login = models.DateField(auto_now=True)
@@ -83,7 +85,8 @@ class Docprofile(models.Model):
     completed=models.BooleanField(default=False)
 
 class ConsultTime(models.Model):
-    user=models.ForeignKey(Account,on_delete=models.CASCADE,)
+    user=models.ForeignKey(Account,on_delete=models.CASCADE,related_name='time')
+    doctordetails=models.ForeignKey(Docprofile,on_delete=models.CASCADE,null=True)
     date=models.DateField(blank=True,max_length=50)
     time_start=models.CharField(blank=True,max_length=50)
     time_end=models.CharField(blank=True,max_length=30)

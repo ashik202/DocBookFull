@@ -34,7 +34,9 @@ export const Signup = () => {
               phone_number:values.phoneno
             });
             if (response.status === 201 ) {
-              navigate('/user_login');
+                console.log(response.data)
+                
+              navigate(`/otpverification/${response.data.id}`);
             } else {
               alert('not valid credentials');
             }

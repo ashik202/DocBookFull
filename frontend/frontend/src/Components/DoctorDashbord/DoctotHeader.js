@@ -22,6 +22,7 @@ const DoctotHeader = () => {
                 </div>
                 <div className="hidden md:block ">
                   <div className="ml-10 flex items-baseline space-x-10 my-4">
+                    
                     <Link to="doctor_dashbord"
                       
                       className="text-black  hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"

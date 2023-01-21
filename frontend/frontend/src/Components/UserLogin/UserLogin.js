@@ -42,6 +42,12 @@ export const UserLogin = () => {
 
                     Navigate('/user_dashbord')
                 }
+                if (response.status===200 && response.data.is_superadmin===true)
+                {
+                dispatch(userdata(response.data));
+                dispatch(login(response.data))
+                Navigate('/Admin_userView')
+                }
 
                
             }catch{

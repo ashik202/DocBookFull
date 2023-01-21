@@ -43,13 +43,13 @@ const AddCunsutingtime = () => {
 
 
   return (
-    <>
+    <div>
       <div className="grid justify-items-center">
         
         
         <form onSubmit={handleSubmit}>
-        <div className="col-start-2 col-span-4 ">
-          <p className="font-bold">Add Your Cunsulting Time</p>
+        <div className="col-start-2 col-span-4">
+          <p className="font-bold  ">Add Your Cunsulting Time</p>
           
           <div className="grid grid-cols-2 m-5 justify-items-start">
             <div className='mt-3'>Date</div>
@@ -118,7 +118,7 @@ const AddCunsutingtime = () => {
         </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

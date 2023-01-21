@@ -15,6 +15,10 @@ import DoctorbasicInfoUpdate from './Components/DoctorProfileUpdate/DoctorbasicI
 import AddConsultingtime from './Pages/AddConsultingtime';
 import { ViewConsultationtimePage } from './Pages/ViewConsultationtimePage';
 import EditConsultingtimePage from './Pages/EditConsultingtimePage';
+import AdminUserViewPage from './Pages/AdminUserViewPage';
+import AdminDoctorViewpage from './Pages/AdminDoctorViewpage';
+import OtpVerificationPage from './Pages/OtpVerificationPage';
+import ConsultingTimeViewPage from './Pages/ConsultingTimeViewPage';
 
 
 
@@ -23,6 +27,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
       <Routes>
+        <Route path="/otpverification/:id" element={<OtpVerificationPage/>}/>
         <Route path="/" exact element={<LandingPage/>}/>
         <Route path="/doctor_signup" element={<DoctotSignupPage/>} />
         <Route path="/doctor_info" element={<DoctorDetailpage/>} />
@@ -37,6 +42,10 @@ function App() {
       <Route path="/user_login" element={ <UserLogin/> } />
       <Route path="/user_dashbord" element={<UserDashbordPage/>}/>
       <Route path="/user_profile_update" element={<UserProfileUpdatepage/>}/>
+
+      <Route path="/Admin_userView" element={<AdminUserViewPage/>}/>
+      <Route path="/Admin_doctorView" element={<AdminDoctorViewpage/>}/>
+      <Route path='/DoctorBook' element={<ConsultingTimeViewPage/>}/>
       
       
       </Routes>
