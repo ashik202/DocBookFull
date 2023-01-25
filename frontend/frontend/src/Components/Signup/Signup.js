@@ -21,10 +21,10 @@ export const Signup = () => {
     
     
 
-   const {values,errors,handleBlur,handleChange,handleSubmit}= useFormik({
+   const {values,errors,handleBlur,handleChange,handleSubmit}=  useFormik({
         initialValues:initialValues,
         validationSchema:singUpSchema,
-       onSubmit:async(values,actions)=>{
+       onSubmit: async (values,actions)=>{
         try {
             const response = await axiosInstance.post(`users/register/`, {
               first_name: values.firstname,

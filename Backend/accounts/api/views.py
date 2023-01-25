@@ -7,11 +7,12 @@ from accounts.models import Docprofile
 from rest_framework.parsers import JSONParser
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
-from .serializers import UserSerializerWithToken, RegisterSerilizer, DoctorRegisterSerilizer, UserProfileUpdate, DoctorProfileSerilizer, ConsultTimeSerializer,AdminUserViewSerilizer,Userdoctorbookingserializer
+from .serializers import UserSerializerWithToken, RegisterSerilizer, DoctorRegisterSerilizer, UserProfileUpdate, DoctorProfileSerilizer, ConsultTimeSerializer,AdminUserViewSerilizer,Userdoctorbookingserializer,UserProfilePicSerializer
 from rest_framework.views import APIView
 from accounts.models import Account, ConsultTime
 from accounts.Otpemail import *
 from django.db.models import F
+from rest_framework.parsers import MultiPartParser, FormParser
 import datetime
 
 
@@ -49,8 +50,7 @@ class RegisterView(APIView):
         if serializer.is_valid():
             serializer.save()
             send_otp_via_email(serializer.data['email'])
-            data = serializer.data
-            return Response(data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -68,6 +68,7 @@ class DocRegisterView(APIView):
 
 
 class userProfileView(APIView):
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
 
     def put(self, request):
         print(request.data)
@@ -79,6 +80,18 @@ class userProfileView(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def patch(self, request, format=None):
+        print("the data", request.data)
+        user = Account.objects.get(pk=request.data["id"])
+        print(user)
+        serializer = UserProfilePicSerializer(
+            instance=user, data=request.data)
+        if serializer.is_valid():
+
+            serializer.save()
+            print("serializer", serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DoctorProfileview(APIView):
@@ -202,6 +215,7 @@ class optverification(APIView):
 
 class userconsultingtime(APIView):
     def get(self,request):
+        parser_classes = [JSONParser, MultiPartParser, FormParser]
         start = datetime.date.today()
         end = start + datetime.timedelta(days=45)
         data=ConsultTime.objects.filter(token_booked__lt=F('totaltoken'),date__range=(start, end))

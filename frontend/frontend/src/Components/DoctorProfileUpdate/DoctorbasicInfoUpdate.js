@@ -5,9 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import useAxios from '../../Axios/useAxios';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import {userdata} from '../../redux/reducer/UserSlice';
+import {userdata,pic} from '../../redux/reducer/UserSlice';
 
 const DoctorbasicInfoUpdate = () => {
+    const imageInput = document.querySelector("#imageInput")
     const Navigate=useNavigate()
     const dispatch= useDispatch()
     const users = useSelector((state) => state.user.user);
@@ -49,6 +50,20 @@ const DoctorbasicInfoUpdate = () => {
 
 
     })
+    const updateProfile = async () => {
+        let image = imageInput.files[0]
+        console.log(image)
+        const formData = new FormData()
+    
+        formData.append("profile_picture", image)
+        formData.append("id", id)
+        console.log(formData)
+        const respons = await api.patch(`user/updateprofile/`, formData)
+        if (respons.status === 201) {
+            
+            dispatch(pic(respons.data,));
+        }
+      }
   return (
     <>
     <section className="max-w-4xl p-6 mx-auto  rounded-md shadow-md  reg-back ">
@@ -77,6 +92,11 @@ const DoctorbasicInfoUpdate = () => {
                         <label className="text-black-700 dark:text-black-200" >PhoneNo</label>
                         <input id="phoneno" name='phoneno' type="text" className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border border-black-200 rounded-md dark:text-black-300 dark:border-black-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
                         value={values.phoneno} onChange={handleChange} onBlur={handleBlur}/>{<p className='Form_error'>{errors.phoneno}</p>}
+                    </div>
+                    <div>
+                        <label className="text-black-700 dark:text-black-200" >Profile_pic</label>
+                        <input id='imageInput' accept="image/jpeg,image/png,image/gif" name='profile_picture' type="file" className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border border-black-200 rounded-md dark:text-black-300 dark:border-black-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+                         onChange={updateProfile} onBlur={handleBlur}/>{<p className='Form_error'>{errors.phoneno}</p>}
                     </div>
 
                    

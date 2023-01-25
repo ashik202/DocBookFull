@@ -23,6 +23,10 @@ const ConsultingTimeView = () => {
             {Data?.map((datas,key)=>(
             <div className="h-32 w-full border-4 rounded-[15px]  m-5">
               <div className="flex items-center justify-center mt-2 ">
+              <div className='m-3'>
+                
+            <img className='sm:h-10 w-10 rounded-[50%]' src={`http://localhost:8000${datas.profilpic}`}/>
+                </div>
                 <div className='m-3'>
                   Dr
                   <br />

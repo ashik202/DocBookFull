@@ -9,7 +9,7 @@ import {  useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
-import {userdata,login} from '../../redux/reducer/UserSlice';
+import {userdata,login,pic} from '../../redux/reducer/UserSlice';
 const initialValues={
     email:"",
     password:"",
@@ -31,12 +31,14 @@ export const UserLogin = () => {
                 {
                     dispatch(userdata(response.data));
                     dispatch(login(response.data))
+                    dispatch(pic(response.data,));
                     Navigate('/doctor_dashbord')
                 }
                 if (response.status===200 && response.data.is_user===true)
                 {
                     console.log(response.data)
                     dispatch(userdata(response.data));
+                    dispatch(pic(response.data,));
                     dispatch(login(response.data))
 
 

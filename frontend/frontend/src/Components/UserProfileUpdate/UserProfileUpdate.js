@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import useAxios from '../../Axios/useAxios';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import {userdata} from '../../redux/reducer/UserSlice';
+import {userdata,pic} from '../../redux/reducer/UserSlice';
 
 
 
 
 const UserProfileUpdate = () => {
+    const imageInput = document.querySelector("#imageInput")
     const Navigate=useNavigate()
     const dispatch= useDispatch()
     const users = useSelector((state) => state.user.user);
@@ -20,6 +21,7 @@ const UserProfileUpdate = () => {
         lastname:users.lastname,
         email:users.email,
         phoneno:users.phonenumber,
+        profile_picture:users.profile_picture,
     }
     const api=useAxios()
     const {values,errors,handleBlur,handleChange,handleSubmit} = useFormik({
@@ -32,7 +34,8 @@ const UserProfileUpdate = () => {
                     first_name: values.firstname,
                      last_name: values.lastname,
                      email: values.email,
-                     phone_number:values.phoneno
+                     phone_number:values.phoneno,
+                    
 
                 })
                 if(response.status===201){
@@ -52,6 +55,20 @@ const UserProfileUpdate = () => {
 
 
     })
+    const updateProfile = async () => {
+        let image = imageInput.files[0]
+        console.log(image)
+        const formData = new FormData()
+    
+        formData.append("profile_picture", image)
+        formData.append("id", id)
+        console.log(formData)
+        const respons = await api.patch(`user/updateprofile/`, formData)
+        if (respons.status === 201) {
+            
+            dispatch(pic(respons.data,));
+        }
+      }
     
 
 
@@ -84,12 +101,17 @@ const UserProfileUpdate = () => {
                         <input id="phoneno" name='phoneno' type="text" className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border border-black-200 rounded-md dark:text-black-300 dark:border-black-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
                         value={values.phoneno} onChange={handleChange} onBlur={handleBlur}/>{<p className='Form_error'>{errors.phoneno}</p>}
                     </div>
+                    <div>
+                        <label className="text-black-700 dark:text-black-200" >Profile_pic</label>
+                        <input id='imageInput' accept="image/jpeg,image/png,image/gif" name='profile_picture' type="file" className="block w-full px-4 py-2 mt-2 text-black-700 bg-white border border-black-200 rounded-md dark:text-black-300 dark:border-black-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+                         onChange={updateProfile} onBlur={handleBlur}/>{<p className='Form_error'>{errors.phoneno}</p>}
+                    </div>
 
                    
                 </div>
 
                 <div className="flex justify-center mt-6 ">
-                    <button type='submit' className="bg-indigo-700 px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-black-700 rounded-md hover:bg-black-600 focus:outline-none focus:bg-black-600">Save</button>
+                    <button type='submit'  className="bg-indigo-700 px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-black-700 rounded-md hover:bg-black-600 focus:outline-none focus:bg-black-600">Save</button>
                 </div>
                 
             </form>

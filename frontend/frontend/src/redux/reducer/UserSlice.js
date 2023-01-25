@@ -11,7 +11,9 @@ export const userslice=createSlice({
                 firstname:action.payload.first_name,
                 lastname:action.payload.last_name,
                 email:action.payload.email,
-                phonenumber:action.payload.phone_number
+                phonenumber:action.payload.phone_number,
+                isLoggedIn: true,
+                
             }
             console.log(user)
             return{
@@ -47,6 +49,15 @@ export const userslice=createSlice({
             }
             
 
+        },
+        pic:(state,action)=>{
+
+            const profile={
+                image:action.payload.profile_picture
+            }
+            return{
+                ...state,profile
+            }
         }
 
         }
@@ -55,6 +66,6 @@ export const userslice=createSlice({
 
 
 
-export const{userdata,login,drinfo} = userslice.actions;
+export const{userdata,login,drinfo,pic} = userslice.actions;
 
 export default userslice.reducer;

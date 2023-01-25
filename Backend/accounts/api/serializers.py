@@ -8,12 +8,13 @@ from accounts.Otpemail import *
 class UserProfileUpdate(serializers.ModelSerializer):
     class Meta:
         model=Account
-        fields=['id','first_name','last_name','phone_number','email']
+        fields=['id','first_name','last_name','phone_number','email','profile_picture']
     def update(self,instance,validated_data):
         instance.first_name=validated_data.get('first_name',instance.first_name)
         instance.last_name=validated_data.get('last_name',instance.last_name)
         instance.email=validated_data.get('email',instance.email)
         instance.phone_number=validated_data.get('phone_number',instance.phone_number)
+        instance.profile_picture=validated_data.get('profile_picture',instance.profile_picture)
         instance.save()
         return instance
 
@@ -22,7 +23,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email',]
 
 
 class UserSerializerWithToken(UserSerializer):
@@ -32,7 +33,7 @@ class UserSerializerWithToken(UserSerializer):
         model = Account
 
         fields = ['id', 'username', 'first_name', 'last_name','phone_number',
-                  'email', 'token', 'is_user', 'is_doctor', 'is_superadmin']
+                  'email', 'token', 'is_user', 'is_doctor', 'is_superadmin','profile_picture']
 
     def get_token(self, obj):
         token = RefreshToken.for_user(obj)
@@ -169,6 +170,7 @@ class AdminUserViewSerilizer(serializers.ModelSerializer):
 class Userdoctorbookingserializer(serializers.ModelSerializer):
     first_name=serializers.ReadOnlyField(source='user.first_name')
     last_name=serializers.ReadOnlyField(source='user.last_name')
+    profilpic=serializers.ImageField(source='user.profile_picture')
     specialization=serializers.ReadOnlyField(source='doctordetails.specialization')
     clinic_name=serializers.ReadOnlyField(source='doctordetails.clinic_name')
     Addressline1=serializers.ReadOnlyField(source="doctordetails.Addressline1")
@@ -177,4 +179,12 @@ class Userdoctorbookingserializer(serializers.ModelSerializer):
 
     class Meta:
         model=ConsultTime
-        fields=['date','time_start','time_end','token_booked','first_name','last_name','clinic_name','Addressline1','Addressline2','specialization','district']
+        fields=['date','time_start','time_end','token_booked','first_name','last_name','clinic_name','Addressline1','Addressline2','specialization','district','profilpic']
+
+class UserProfilePicSerializer(serializers.ModelSerializer):
+    print("here")
+    profile_picture=serializers.ImageField(required=False)
+    
+    class Meta:
+        model = Account
+        fields = ["profile_picture"]
