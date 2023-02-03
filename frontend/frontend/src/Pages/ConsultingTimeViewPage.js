@@ -1,9 +1,13 @@
 import React from 'react'
 import ConsultingTimeView from '../Components/ConsultingTimeView/ConsultingTimeView'
+import Header from '../Components/Header/Header'
 
 const ConsultingTimeViewPage = () => {
   return (
-    <div><ConsultingTimeView/>
+    <div>
+      <Header/>
+
+      <ConsultingTimeView/>
 
     </div>
   )

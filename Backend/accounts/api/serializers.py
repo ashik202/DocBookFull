@@ -168,6 +168,8 @@ class AdminUserViewSerilizer(serializers.ModelSerializer):
 
 
 class Userdoctorbookingserializer(serializers.ModelSerializer):
+    doctor_id=serializers.ReadOnlyField(source='user.id')
+    doctordetail_id=serializers.ReadOnlyField(source='doctordetails.id')
     first_name=serializers.ReadOnlyField(source='user.first_name')
     last_name=serializers.ReadOnlyField(source='user.last_name')
     profilpic=serializers.ImageField(source='user.profile_picture')
@@ -179,7 +181,7 @@ class Userdoctorbookingserializer(serializers.ModelSerializer):
 
     class Meta:
         model=ConsultTime
-        fields=['date','time_start','time_end','token_booked','first_name','last_name','clinic_name','Addressline1','Addressline2','specialization','district','profilpic']
+        fields=['id','date','time_start','time_end','token_booked','first_name','last_name','clinic_name','Addressline1','Addressline2','specialization','district','profilpic','doctordetail_id','doctor_id']
 
 class UserProfilePicSerializer(serializers.ModelSerializer):
     print("here")
@@ -188,3 +190,8 @@ class UserProfilePicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
         fields = ["profile_picture"]
+
+
+
+
+

@@ -14,6 +14,8 @@ from accounts.Otpemail import *
 from django.db.models import F
 from rest_framework.parsers import MultiPartParser, FormParser
 import datetime
+from rest_framework.filters import SearchFilter
+from rest_framework.generics import ListAPIView
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -144,13 +146,18 @@ class counsalting_time(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
-        user_id = request.data["id"]
-        print(user_id)
-        serializer = ConsultTimeSerializer(data=request.data, context={"user_id": user_id})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        userid = request.data["id"]
+        print(userid)
+        consutingtime=ConsultTime.objects.filter(user_id=userid,date=request.data['date'])
+        if not consutingtime:
+            serializer = ConsultTimeSerializer(data=request.data, context={"user_id": userid})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
 
 
 class singilcounsaltingtime(APIView):
@@ -213,12 +220,31 @@ class optverification(APIView):
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-class userconsultingtime(APIView):
-    def get(self,request):
-        parser_classes = [JSONParser, MultiPartParser, FormParser]
-        start = datetime.date.today()
-        end = start + datetime.timedelta(days=45)
-        data=ConsultTime.objects.filter(token_booked__lt=F('totaltoken'),date__range=(start, end))
-        print(data)
-        selializer=Userdoctorbookingserializer(data,many=True)
-        return Response(selializer.data,status=status.HTTP_200_OK)
+class userconsultingtime(ListAPIView):
+    
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
+    start = datetime.date.today()
+    end = start + datetime.timedelta(days=45)
+    queryset=ConsultTime.objects.filter(token_booked__lt=F('totaltoken'),date__range=(start, end))    
+    serializer_class=Userdoctorbookingserializer
+    filter_backends=(SearchFilter,)
+    search_fields = ('doctordetails__district','date')
+class singlepageconsultingtime(APIView):
+    def post(self,request):
+        id=request.data["id"]
+        print(id,"hello")
+        consultingtime=ConsultTime.objects.get(pk=id)
+        serelizer=Userdoctorbookingserializer(consultingtime)
+        return Response(serelizer.data,status=status.HTTP_201_CREATED)
+
+
+        
+class doctortbooking(APIView):
+    def post(self,request):
+        print(request.data)
+        consltingtime=ConsultTime.objects.get(pk=request.data["id"])
+        token=consltingtime.token_booked+1
+        consltingtime.token_booked=consltingtime.token_booked+1
+        consltingtime.save()
+        
+        return Response(  status=status.HTTP_400_BAD_REQUEST)

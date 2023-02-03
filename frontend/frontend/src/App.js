@@ -19,6 +19,7 @@ import AdminUserViewPage from './Pages/AdminUserViewPage';
 import AdminDoctorViewpage from './Pages/AdminDoctorViewpage';
 import OtpVerificationPage from './Pages/OtpVerificationPage';
 import ConsultingTimeViewPage from './Pages/ConsultingTimeViewPage';
+import SingleConsultingViewPage from './Pages/SingleConsultingViewPage';
 
 
 
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/otpverification/:id" element={<OtpVerificationPage/>}/>
         <Route path="/" exact element={<LandingPage/>}/>
+
         <Route path="/doctor_signup" element={<DoctotSignupPage/>} />
         <Route path="/doctor_info" element={<DoctorDetailpage/>} />
         <Route path="/doctor_dashbord" element={<DoctorDashbordpage/>} />
@@ -45,7 +47,9 @@ function App() {
 
       <Route path="/Admin_userView" element={<AdminUserViewPage/>}/>
       <Route path="/Admin_doctorView" element={<AdminDoctorViewpage/>}/>
+
       <Route path='/DoctorBook' element={<ConsultingTimeViewPage/>}/>
+      <Route path='/SingleDoctorBookPage/:id' element={<SingleConsultingViewPage/>}/>
       
       
       </Routes>

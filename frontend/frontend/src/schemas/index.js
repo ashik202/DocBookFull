@@ -54,3 +54,10 @@ export const UserprofileUpdate=Yup.object({
     phoneno:Yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
 
 });
+
+export const patient=Yup.object({
+    patinetname:Yup.string().min(2).max(25).required("Enter the patinet name"),
+    age:Yup.string().required("Enter the age"),
+    email:Yup.string().email().required("enter the email"),
+
+})
