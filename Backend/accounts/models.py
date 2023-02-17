@@ -91,9 +91,21 @@ class ConsultTime(models.Model):
     time_start=models.CharField(blank=True,max_length=50)
     time_end=models.CharField(blank=True,max_length=30)
     totaltoken=models.IntegerField()
-    token_booked=models.IntegerField(default=0)
+    token_booked=models.IntegerField(default=1)
     def __str__(self):
         return self.user.username
+class SlotBooking(models.Model):
+    user=models.ForeignKey(Account,on_delete=CASCADE)
+    doctordetails=models.ForeignKey(Docprofile,on_delete=models.CASCADE)
+    consutime=models.ForeignKey(ConsultTime,on_delete=CASCADE)
+    age=models.IntegerField()
+    email=models.EmailField()
+    patientname=models.CharField(max_length=50)
+    token=models.CharField(max_length=20)
+    
+
+    def __str__(self):
+        return self.patientname
 
 
    

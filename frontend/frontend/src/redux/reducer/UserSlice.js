@@ -33,8 +33,18 @@ export const userslice=createSlice({
                 ...state,token
             }
         },
+        logout:(state)=>{
+            console.log("Removing token and user data...");
+            return {
+              ...state,
+              token: null,
+              user: null,
+            };
+
+        },
         drinfo:(state,action)=>{
             const profitinalinfo={
+            id:action.payload.id,
             regno:action.payload.regno,
             clinic_name:action.payload.clinic_name,
             specialization:action.payload.specialization,
@@ -66,6 +76,6 @@ export const userslice=createSlice({
 
 
 
-export const{userdata,login,drinfo,pic} = userslice.actions;
+export const{userdata,login,drinfo,pic,logout} = userslice.actions;
 
 export default userslice.reducer;

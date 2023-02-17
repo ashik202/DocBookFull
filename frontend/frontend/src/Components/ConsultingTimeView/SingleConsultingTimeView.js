@@ -14,6 +14,7 @@ const initialValues={
 }
 
 const SingleConsultingTimeView = () => {
+  const navigate=useNavigate()
   const api=useAxios()
   const users = useSelector((state) => state.user.user);
   const [Data, SetDate] = useState();
@@ -36,17 +37,18 @@ const SingleConsultingTimeView = () => {
    onSubmit: async (values,actions)=>{
     try {
         const response = await api.post(`user/doctorbooking/`, {
-          user_id:users.id,
-          id:Data.id,
+          user:users.id,
+          consutime:Data.id,
           patientname:values.patinetname,
           age:values.age,
           email: values.email,
           doctor_id:Data.doctor_id,
-          doctordetail_id:Data.doctordetail_id,
-          token_booked:Data.token_booked
+          doctordetails:Data.doctordetail_id,
+          token:Data.token_booked
         });
         if (response.status === 201 ) {
             console.log(response.data)
+            navigate(`/Booking_conformation/${response.data.id}`);
             
           
         } else {

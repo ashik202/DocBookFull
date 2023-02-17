@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
-from accounts.models import Account,Docprofile,ConsultTime
+from accounts.models import Account,Docprofile,ConsultTime,SlotBooking
 from accounts.Otpemail import * 
 
 
@@ -67,21 +67,8 @@ class RegisterSerilizer(serializers.ModelSerializer):
 class DoctorProfileSerilizer(serializers.ModelSerializer):
     class Meta:
         model=Docprofile
-        fields=['regno','specialization','clinic_name','Addressline1','Addressline2','link_of_map','district','state','completed']
-        def create(self,validate_data):
-            profile=Docprofile(
-                regno=validate_data["regno"],
-                specialization=validate_data["regno"],
-                clinic_name=validate_data["clinic_name"],
-                Addressline1=validate_data["Addressline1"],
-                Addressline2=validate_data["Addressline2"],
-                link_of_map=validate_data['link_of_map'],
-                district=validate_data["district"],
-                state=validate_data["state"],
-
-            )
-            profile.completed=True
-            profile.save()
+        fields=['id','regno','specialization','clinic_name','Addressline1','Addressline2','link_of_map','district','state','completed']
+       
         def update(self,instance,validated_data):
             instance.regno=validated_data.get('regno',instance.regno)
             instance.specialization=validated_data.get('specialization',instance.specialization)
@@ -191,7 +178,31 @@ class UserProfilePicSerializer(serializers.ModelSerializer):
         model = Account
         fields = ["profile_picture"]
 
+class SlotBookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=SlotBooking
+        fields='__all__'
 
+       
+class UserBokkingViewSerializer(serializers.ModelSerializer):
+    doctorfirst_name=serializers.ReadOnlyField(source='doctordetails.user.first_name')
+    user_name=serializers.ReadOnlyField(source='user.first_name')
+    doctorlast_name=serializers.ReadOnlyField(source='doctordetails.user.last_name')
+    profile_picture=serializers.ImageField(source='doctordetails.user.profile_picture')
+    specialization=serializers.ReadOnlyField(source='doctordetails.specialization')
+    clinic_name=serializers.ReadOnlyField(source='doctordetails.clinic_name')
+    Addressline1=serializers.ReadOnlyField(source='doctordetails.Addressline1')
+    Addressline2=serializers.ReadOnlyField(source='doctordetails.Addressline2')
+    district=serializers.ReadOnlyField(source='doctordetails.district')
+    state=serializers.ReadOnlyField(source='doctordetails.state')
+    date=serializers.ReadOnlyField(source='consutime.date')
+    time_start=serializers.ReadOnlyField(source='consutime.time_start')
+    time_end=serializers.ReadOnlyField(source='consutime.time_end')
+
+    
+    class Meta:
+        model=SlotBooking
+        fields=['id','doctorfirst_name',"doctorlast_name",'profile_picture','clinic_name','Addressline1','Addressline2','district','state','patientname','token','age','time_start','time_end','date','specialization','email','user_name']
 
 
 

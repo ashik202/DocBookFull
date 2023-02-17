@@ -59,7 +59,7 @@ const ViewConsultingtime = () => {
                     <td>{datas.time_start}</td>
                     <td>{datas.time_end}</td>
                     <td>{datas.totaltoken}</td>
-                    <td>{datas.totaltoken}</td>
+                    <td>{datas.token_booked-1}</td>
                     <td>
                       <div class="inline-flex">
                         <Link to={`/doctor_EditeCounsultingtime/${datas.id}`}>
