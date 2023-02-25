@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
-from accounts.models import Account,Docprofile,ConsultTime,SlotBooking
+from accounts.models import Account,Docprofile,ConsultTime,SlotBooking,Packege
 from accounts.Otpemail import * 
 
 
@@ -67,7 +67,7 @@ class RegisterSerilizer(serializers.ModelSerializer):
 class DoctorProfileSerilizer(serializers.ModelSerializer):
     class Meta:
         model=Docprofile
-        fields=['id','regno','specialization','clinic_name','Addressline1','Addressline2','link_of_map','district','state','completed']
+        fields=['id','regno','specialization','clinic_name','Addressline1','Addressline2','link_of_map','district','state','completed','payment']
        
         def update(self,instance,validated_data):
             instance.regno=validated_data.get('regno',instance.regno)
@@ -181,8 +181,20 @@ class UserProfilePicSerializer(serializers.ModelSerializer):
 class SlotBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model=SlotBooking
-        fields='__all__'
-
+        fields=["id","consutime","doctordetails","user","patientname","age","email"]
+        
+        def create(self, validated_data):
+            token_id = self.context.get("token_id")
+            slotbooking = SlotBooking.objects.create(
+            patientname=validated_data["patientname"],
+            email=validated_data["email"],
+            age=validated_data["age"],
+            user=validated_data["user"],
+            doctordetails=validated_data["doctordetails"],
+            consutime=validated_data["consutime"],
+           
+        )
+            return slotbooking
        
 class UserBokkingViewSerializer(serializers.ModelSerializer):
     doctorfirst_name=serializers.ReadOnlyField(source='doctordetails.user.first_name')
@@ -206,3 +218,16 @@ class UserBokkingViewSerializer(serializers.ModelSerializer):
 
 
 
+class DoctorinfoSerializer(serializers.ModelSerializer):
+    doctor_id=serializers.ReadOnlyField(source='user.id')
+    doctorfirst_name=serializers.ReadOnlyField(source='user.first_name')
+    doctorlast_name=serializers.ReadOnlyField(source='user.last_name')
+    profile_picture=serializers.ImageField(source='user.profile_picture')
+    class Meta:
+        model=Docprofile
+        fields=['id','doctor_id','doctorfirst_name',"doctorlast_name",'profile_picture','clinic_name','Addressline1','Addressline2','district','state',]
+
+class PakckegeSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model=Packege
+        fields='__all__'

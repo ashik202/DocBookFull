@@ -11,7 +11,7 @@ const DoctorbasicInfoUpdate = () => {
     const imageInput = document.querySelector("#imageInput")
     const Navigate=useNavigate()
     const dispatch= useDispatch()
-    const users = useSelector((state) => state.user.user);
+    const users = useSelector((state) => state.user.docuser);
     const id= users.id
     const initialValues={
         firstname:users.firstname,

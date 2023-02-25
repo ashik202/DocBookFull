@@ -9,7 +9,7 @@ import {  useNavigate } from 'react-router-dom';
 const DoctorViewBooking = () => {
   const [Date,SetDate]=useState([])
   const [Data,SetData]=useState([])
-    const users = useSelector((state) => state.user.user);
+    const users = useSelector((state) => state.user.docuser);
     const dr= useSelector((state)=>state.user.profitinalinfo)
     const id=users.id
     console.log(id,"helllo")

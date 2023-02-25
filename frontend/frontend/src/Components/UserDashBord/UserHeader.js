@@ -19,14 +19,14 @@ const UserHeader = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           
-            
+            <Link to="/">
             <div className="flex my-4">
               <img
                 className="h-10 w-18"
                 src={image} alt=""
                 
               />
-            </div>
+            </div></Link>
             <div className="hidden md:block ">
               <div className="ml-10 flex items-baseline space-x-10 my-4">
                 

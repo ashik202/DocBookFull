@@ -15,17 +15,17 @@ export const Header = () => {
             <div className="flex justify-between h-16">
               
                 
-                <div className="flex my-4">
+               <Link to='/'> <div className="flex my-4">
                   <img
                     className="h-10 w-18"
                     src={image} alt=""
                     
                   />
-                </div>
+                </div></Link>
                 <div className="hidden md:block ">
                   <div className="ml-10 flex items-baseline space-x-10 my-4">
                     <a
-                      href="/"
+                      href="/DoctorBook"
                       className="text-black  hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >
                       Book Apoinment

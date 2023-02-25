@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import useAxios from '../../Axios/useAxios';
 import { useSelector } from 'react-redux';
 const AddCunsutingtime = () => {
-  const id=useSelector((state) => state.user.user.id);
+  const id=useSelector((state) => state.user.docuser.id);
   const api=useAxios()
   const navigate= useNavigate()
   const initilValues = {

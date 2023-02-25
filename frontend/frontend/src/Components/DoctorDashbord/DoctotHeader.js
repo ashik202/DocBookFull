@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import { Transition } from '@headlessui/react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { logout } from '../../redux/reducer/UserSlice';
+import { doclogout } from '../../redux/reducer/UserSlice';
 
 const DoctotHeader = () => {
   const dispatch = useDispatch();
   const logot = () => {
-    dispatch(logout());
+    dispatch(doclogout());
   };
 
   const [isOpen, setIsOpen] = useState(false);

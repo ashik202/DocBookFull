@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
-from . views import MyTokenObtainPairView,RegisterView,DocRegisterView,userProfileView,DoctorProfileview,counsalting_time,singilcounsaltingtime,adminuserview,admindoctorview,optverification,userconsultingtime,singlepageconsultingtime,doctortbooking,UserViewBooking,DoctorViewBooking,BookingConform,DoctorBookingDetails
-
+from . views import MyTokenObtainPairView,RegisterView,DocRegisterView,userProfileView,DoctorProfileview,counsalting_time,singilcounsaltingtime,adminuserview,admindoctorview,optverification,userconsultingtime,singlepageconsultingtime,doctortbooking,UserViewBooking,DoctorViewBooking,BookingConform,DoctorBookingDetails,ViewPackage
+from payment.views import RazorpayPaymentView,RazorpayCallback
 from rest_framework_simplejwt.views import (
     
     TokenRefreshView,
@@ -24,7 +24,10 @@ urlpatterns = [
     path('doctor/counsaltingtime/<int:id>',counsalting_time.as_view(),name='doctorCounsaltingtime'),
     path('doctor/counsaltingtime',counsalting_time.as_view(),name='doctorCounsaltingtimepost'),
     path('doctor/singileconsalttime/',singilcounsaltingtime.as_view(),name="doctorsingleconsulting"),
-     path('doctor/doctorviewBooking/<int:id>',DoctorViewBooking.as_view(),name="doctorviewbooking"),
+    path('doctor/doctorviewBooking/<int:id>',DoctorViewBooking.as_view(),name="doctorviewbooking"),
+    path('doctopackegview/',ViewPackage.as_view(),name="viewpackage"),
+    path('RazorpayCallback',RazorpayCallback.as_view(),name='RazorpayCallback'),
+    path('RazorpayPaymentView',RazorpayPaymentView.as_view(),name='RazorpayPaymentView'),
 
     path('Admin/userview/',adminuserview.as_view(),name="adminuserview"),
     path('Admin/doctorview/',admindoctorview.as_view(),name="adminuserview"),

@@ -7,7 +7,7 @@ import useAxios from '../../Axios/useAxios';
 const ViewConsultingtime = () => {
   const [Data, SetData] = useState();
   const api = useAxios();
-  const users = useSelector((state) => state.user.user);
+  const users = useSelector((state) => state.user.docuser);
   const id = users.id;
   const consultingtime = async () => {
     try {
@@ -59,7 +59,7 @@ const ViewConsultingtime = () => {
                     <td>{datas.time_start}</td>
                     <td>{datas.time_end}</td>
                     <td>{datas.totaltoken}</td>
-                    <td>{datas.token_booked-1}</td>
+                    <td>{datas.token_booked}</td>
                     <td>
                       <div class="inline-flex">
                         <Link to={`/doctor_EditeCounsultingtime/${datas.id}`}>

@@ -22,6 +22,24 @@ export const userslice=createSlice({
             }
 
         },
+        docdata:(state,action)=>{
+            const docuser={
+                id:action.payload.id,
+                username:action.payload.username,
+                firstname:action.payload.first_name,
+                lastname:action.payload.last_name,
+                email:action.payload.email,
+                phonenumber:action.payload.phone_number,
+                docisLoggedIn: true,
+                
+            }
+            console.log(docuser)
+            return{
+                ...state,
+                docuser,
+            }
+
+        },
 
         login:(state,action)=>{
             const token={
@@ -39,6 +57,17 @@ export const userslice=createSlice({
               ...state,
               token: null,
               user: null,
+              isLoggedIn: false,
+            };
+
+        },
+        doclogout:(state)=>{
+            console.log("Removing token and user data...");
+            return {
+              ...state,
+              token: null,
+              user: null,
+              docisLoggedIn: false,
             };
 
         },
@@ -53,6 +82,8 @@ export const userslice=createSlice({
             link_of_map:action.payload.link_of_map,
             district:action.payload.district,
             states:action.payload.state,
+            completed:action.payload.completed,
+            payment:action.payload.payment
             }
             return{
                 ...state,profitinalinfo
@@ -68,6 +99,15 @@ export const userslice=createSlice({
             return{
                 ...state,profile
             }
+        },
+         docpic:(state,action)=>{
+
+            const docprofile={
+                image:action.payload.profile_picture
+            }
+            return{
+                ...state,docprofile
+            }
         }
 
         }
@@ -76,6 +116,6 @@ export const userslice=createSlice({
 
 
 
-export const{userdata,login,drinfo,pic,logout} = userslice.actions;
+export const{userdata,login,drinfo,pic,logout,docdata,docpic,doclogout} = userslice.actions;
 
 export default userslice.reducer;

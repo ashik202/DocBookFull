@@ -55,17 +55,18 @@ const ConsultingTimeView = () => {
 
             {Data?.map((datas, key) => (
               <div className="h-62 md:h-32 w-full border-4 rounded-[15px] my-10 md:my-5 ">
-                <div className="grid grid-cols-2 md:grid-cols-7   ">
+                <div className="grid grid-cols-2 md:grid-cols-6   ">
                   <div className="m-3">
                     <img
                       className="h-20 w-20 rounded-[50%]"
-                      src={`${datas.profilpic}`}
+                      src={`${datas.profile_picture
+                      }`}
                     />
                   </div>
                   <div className="m-3">
                     Dr
                     <br />
-                    <p>{datas.first_name}</p>
+                    <p>{datas.doctorfirst_name}</p>
                   </div>
                   <div className="m-3">
                     specilcation
@@ -78,16 +79,11 @@ const ConsultingTimeView = () => {
                   </div>
 
                   <div className="m-3">
-                    Date
-                    <p>{datas.date}</p>
+                    Address
+                    <p>{datas.Addressline1} {datas.Addressline2}</p>
                   </div>
-                  <div className="m-3">
-                    Time
-                    <p>
-                      {datas.time_start} to {datas.time_end}
-                    </p>
-                  </div>
-                  <Link to={`/SingleDoctorBookPage/${datas.id}`}>
+                 
+                  <Link to={`/SingleDoctorBookPage/${datas.doctor_id}`}>
                   <button
                     type="button"
                     class=" h-10 md:m-10 border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline"

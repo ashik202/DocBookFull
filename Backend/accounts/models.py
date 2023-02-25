@@ -83,6 +83,7 @@ class Docprofile(models.Model):
     district=models.CharField(max_length=30,blank=True)
     state=models.CharField(max_length=50,blank=True)
     completed=models.BooleanField(default=False)
+    payment=models.BooleanField(default=False)
 
 class ConsultTime(models.Model):
     user=models.ForeignKey(Account,on_delete=models.CASCADE,related_name='time')
@@ -91,7 +92,7 @@ class ConsultTime(models.Model):
     time_start=models.CharField(blank=True,max_length=50)
     time_end=models.CharField(blank=True,max_length=30)
     totaltoken=models.IntegerField()
-    token_booked=models.IntegerField(default=1)
+    token_booked=models.IntegerField(default=0)
     def __str__(self):
         return self.user.username
 class SlotBooking(models.Model):
@@ -108,4 +109,14 @@ class SlotBooking(models.Model):
         return self.patientname
 
 
-   
+class Packege(models.Model):
+    packegename=models.CharField(max_length=50)
+    packeduration=models.CharField(max_length=50)
+    amound=models.IntegerField()
+
+
+class SelcetedPakeg(models.Model):
+    user=models.ForeignKey(Account,on_delete=CASCADE)
+    packege=models.ForeignKey(Packege,on_delete=CASCADE)
+    date=models.DateField(auto_now_add=True)
+    

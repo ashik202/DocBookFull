@@ -7,9 +7,9 @@ from accounts.models import Docprofile
 from rest_framework.parsers import JSONParser
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
-from .serializers import UserSerializerWithToken, RegisterSerilizer, DoctorRegisterSerilizer, UserProfileUpdate, DoctorProfileSerilizer, ConsultTimeSerializer,AdminUserViewSerilizer,Userdoctorbookingserializer,UserProfilePicSerializer,SlotBookingSerializer,UserBokkingViewSerializer
+from .serializers import UserSerializerWithToken, RegisterSerilizer, DoctorRegisterSerilizer, UserProfileUpdate, DoctorProfileSerilizer, ConsultTimeSerializer,AdminUserViewSerilizer,Userdoctorbookingserializer,UserProfilePicSerializer,SlotBookingSerializer,UserBokkingViewSerializer,DoctorinfoSerializer,PakckegeSerilizer
 from rest_framework.views import APIView
-from accounts.models import Account, ConsultTime,SlotBooking
+from accounts.models import Account, ConsultTime,SlotBooking,Packege
 from accounts.Otpemail import *
 from django.db.models import F
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -124,7 +124,9 @@ class DoctorProfileview(APIView):
 class counsalting_time(APIView):
     def get(self, request, id):
         user = Account.objects.get(pk=id)
-        cosultingtime = ConsultTime.objects.filter(user=user)
+        start = datetime.date.today()
+        end = start + datetime.timedelta(days=180)
+        cosultingtime = ConsultTime.objects.filter(user=user,date__range=(start, end)).order_by('date')
         print(cosultingtime)
         if cosultingtime is not None:
             serializer = ConsultTimeSerializer(cosultingtime, many=True)
@@ -225,16 +227,18 @@ class userconsultingtime(ListAPIView):
     parser_classes = [JSONParser, MultiPartParser, FormParser]
     start = datetime.date.today()
     end = start + datetime.timedelta(days=45)
-    queryset=ConsultTime.objects.filter(token_booked__lte=F('totaltoken'),date__range=(start, end))    
-    serializer_class=Userdoctorbookingserializer
+    queryset=Docprofile.objects.filter(user__is_doctor=True)    
+    serializer_class=DoctorinfoSerializer
     filter_backends=(SearchFilter,)
     search_fields = ('doctordetails__district','date')
+
 class singlepageconsultingtime(APIView):
     def post(self,request):
         id=request.data["id"]
         print(id,"hello")
-        consultingtime=ConsultTime.objects.get(pk=id)
-        serelizer=Userdoctorbookingserializer(consultingtime)
+        consultingtime=ConsultTime.objects.filter(user__id=id)
+        print(consultingtime)
+        serelizer=Userdoctorbookingserializer(consultingtime,many=True)
         return Response(serelizer.data,status=status.HTTP_201_CREATED)
 
 
@@ -242,14 +246,31 @@ class singlepageconsultingtime(APIView):
 class doctortbooking(APIView):
     def post(self,request):
         print(request.data)
-        serelizer=SlotBookingSerializer(data=request.data)
-        consltingtime=ConsultTime.objects.get(pk=request.data["consutime"])
-        consltingtime.token_booked=consltingtime.token_booked+1
-        consltingtime.save()
-        if serelizer.is_valid():
-                serelizer.save()
-                return Response(serelizer.data, status=status.HTTP_201_CREATED)
-        return Response(serelizer.errors, status=status.HTTP_400_BAD_REQUEST)
+        data=SlotBooking.objects.filter(consutime__id=request.data["consutime"],email=request.data["email"])
+        print(data,"empty")
+        if data.exists():
+            return Response({'message':'this email is alredy booked '},status=status.HTTP_400_BAD_REQUEST)
+        else:
+            slot=ConsultTime.objects.get(pk=request.data["consutime"])
+            token=slot.token_booked+1
+            serelizer=SlotBookingSerializer(data=request.data)
+            consltingtime=ConsultTime.objects.get(pk=request.data["consutime"])
+            totaltoken=consltingtime.totaltoken
+            token_booked=consltingtime.token_booked
+            if token_booked<=totaltoken:
+                consltingtime.token_booked=consltingtime.token_booked+1
+                consltingtime.save()
+                if serelizer.is_valid():
+                    serelizer.validated_data['token']=token
+                    serelizer.save()
+                    return Response(serelizer.data, status=status.HTTP_201_CREATED)
+                return Response(serelizer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message':'token exrcid'},status=status.HTTP_400_BAD_REQUEST)
+        
+       
+
+            
+        
 
 class UserViewBooking(APIView):
     def get(self,request,id):
@@ -260,7 +281,9 @@ class UserViewBooking(APIView):
 
 class DoctorViewBooking(APIView):
     def get(self,request,id):
-        data=ConsultTime.objects.filter(user__id=id)
+        start = datetime.date.today()
+        end = start + datetime.timedelta(days=45)
+        data=ConsultTime.objects.filter(user__id=id,date__range=(start, end)).order_by('date')
         serializer=ConsultTimeSerializer(data,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
    
@@ -277,4 +300,11 @@ class DoctorBookingDetails(APIView):
         print(request.data)
         data=SlotBooking.objects.filter(doctordetails__id=request.data["id"],consutime__date=request.data["date"])
         serializer=UserBokkingViewSerializer(data,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+
+class ViewPackage(APIView):
+    def get(self,request):
+        data=Packege.objects.all()
+        serializer=PakckegeSerilizer(data,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)

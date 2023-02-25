@@ -23,6 +23,7 @@ import SingleConsultingViewPage from './Pages/SingleConsultingViewPage';
 import BookingConformPage from './Pages/BookingConformPage';
 import DoctorViewBookingPage from './Pages/DoctorViewBookingPage';
 import BookingViewUserpage from './Pages/BookingViewUserpage';
+import PackageSelectPage from './Pages/PackageSelectPage';
 
 
 
@@ -44,6 +45,7 @@ function App() {
         <Route path='/doctor_EditeCounsultingtime/:id' element={<EditConsultingtimePage/>}/>
         <Route path='/doctor_EditeCounsultingtime/:id' element={<EditConsultingtimePage/>}/>
         <Route path='/doctor_viewbooking' element={<DoctorViewBookingPage/>}/>
+        <Route path='/doctor_viewpackage' element={<PackageSelectPage/>}/>
       
       <Route path="/user_signup" element={ <UserSignupPage/> } />
       <Route path="/user_login" element={ <UserLogin/> } />

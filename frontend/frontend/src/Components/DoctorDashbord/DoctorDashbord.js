@@ -10,7 +10,7 @@ import {  useNavigate } from 'react-router-dom';
 const DoctorDashbord = () => {
   const Navigate=useNavigate()
   const dispatch=useDispatch()
-  const users = useSelector((state) => state.user.user);
+  const users = useSelector((state) => state.user.docuser);
   const id=users.id
   const api=useAxios()
   const professionalinfo  = async ()=>{
@@ -22,7 +22,7 @@ const DoctorDashbord = () => {
         
 
       }
-     
+     console.log(response.data);
       dispatch(drinfo(response.data,));
     }catch(error){
       
@@ -127,7 +127,7 @@ const DoctorDashbord = () => {
                     </div>
                     <div>
                     <p className="text-center" >state</p>
-                        <input disabled value={dr.states9} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
+                        <input disabled value={dr.states} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
                    
                     </div>
                     
