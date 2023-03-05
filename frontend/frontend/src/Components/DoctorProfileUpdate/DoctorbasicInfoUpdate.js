@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import useAxios from '../../Axios/useAxios';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import {userdata,pic} from '../../redux/reducer/UserSlice';
+import {userdata,docpic} from '../../redux/reducer/UserSlice';
 
 const DoctorbasicInfoUpdate = () => {
     const imageInput = document.querySelector("#imageInput")
@@ -61,7 +61,7 @@ const DoctorbasicInfoUpdate = () => {
         const respons = await api.patch(`user/updateprofile/`, formData)
         if (respons.status === 201) {
             
-            dispatch(pic(respons.data,));
+            dispatch(docpic(respons.data,));
         }
       }
   return (

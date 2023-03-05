@@ -69,7 +69,7 @@ const AddCunsutingtime = () => {
             <div className='mt-3'>Time StartFrom</div>
             <div>
               <input
-                type="text"
+                type="time"
                 name="time_start"
                 id="price"
                 className="block w-40 h-10 rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ml-5"
@@ -83,7 +83,7 @@ const AddCunsutingtime = () => {
             <div>Time Uo to</div>
             <div>
               <input
-                type="text"
+                type="time"
                 name="time_end"
                 id="time_end"
                 className="block w-40 h-10 rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ml-5"

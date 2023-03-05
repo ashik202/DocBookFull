@@ -43,12 +43,20 @@ const DoctotHeader = () => {
                   View Patient
                 </Link>
                 <Link
+                  to="/doctor_viewpackage"
+                 
+                  className="text-black  hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Your Packege
+                </Link>
+                <Link
                   to="/"
                   onClick={logot}
                   className="text-black  hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Logout
                 </Link>
+               
               </div>
             </div>
 

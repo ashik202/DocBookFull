@@ -24,6 +24,10 @@ import BookingConformPage from './Pages/BookingConformPage';
 import DoctorViewBookingPage from './Pages/DoctorViewBookingPage';
 import BookingViewUserpage from './Pages/BookingViewUserpage';
 import PackageSelectPage from './Pages/PackageSelectPage';
+import AdminViewPackegePage from './Pages/AdminViewPackegePage';
+import AdminAddPackege from './Pages/AdminAddPackege';
+import EditePackegePage from './Pages/EditePackegePage';
+import AdminViewSelectedPackagePage from './Pages/AdminViewSelectedPackagePage';
 
 
 
@@ -43,7 +47,6 @@ function App() {
         <Route path="/doctor_addconsultingtime" element={<AddConsultingtime/>}/>
         <Route path='/doctor_viewconsution' element={<ViewConsultationtimePage/>}/>
         <Route path='/doctor_EditeCounsultingtime/:id' element={<EditConsultingtimePage/>}/>
-        <Route path='/doctor_EditeCounsultingtime/:id' element={<EditConsultingtimePage/>}/>
         <Route path='/doctor_viewbooking' element={<DoctorViewBookingPage/>}/>
         <Route path='/doctor_viewpackage' element={<PackageSelectPage/>}/>
       
@@ -56,6 +59,11 @@ function App() {
 
       <Route path="/Admin_userView" element={<AdminUserViewPage/>}/>
       <Route path="/Admin_doctorView" element={<AdminDoctorViewpage/>}/>
+      <Route path="/adminviewpackegepage" element={<AdminViewPackegePage/>}/>
+      <Route path="/adminviewselectedpackage" element={<AdminViewSelectedPackagePage/>}/>
+
+      <Route path="/adminaddpackege" element={<AdminAddPackege/>}/>
+      <Route path="/admineditepackege/:id" element={<EditePackegePage/>}/>
 
       <Route path='/DoctorBook' element={<ConsultingTimeViewPage/>}/>
       <Route path='/SingleDoctorBookPage/:id' element={<SingleConsultingViewPage/>}/>

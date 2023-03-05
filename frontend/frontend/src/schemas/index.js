@@ -57,8 +57,16 @@ export const UserprofileUpdate=Yup.object({
 
 export const patient=Yup.object({
     patinetname:Yup.string().min(2).max(25).required("Enter the patinet name"),
-    age:Yup.string().required("Enter the age"),
+    age: Yup.number().min(1, "Enter valid age").required("Enter the age"),
     email:Yup.string().email().required("enter the email"),
     consutime:Yup.string().required("Enter the time"),
+
+})
+
+export const packege=Yup.object({
+    packegename:Yup.string().min(2).max(25).required("Enter the patinet name"),
+    packeduration: Yup.number().min(1, "Enter valid age").required("Enter the age"),
+    amound:Yup.number().min(1, "Enter valid age").required("Enter the age"),
+    
 
 })

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import DateTimeField
+from payment.models import RazorpayPayment
 
 
 
@@ -47,7 +48,7 @@ class Account(AbstractBaseUser):
     phone_number = models.CharField(max_length=100, default='')
     is_doctor=models.BooleanField(default=False)
     is_user=models.BooleanField(default=False)
-    profile_picture=models.ImageField(blank=True,upload_to='userprofile',default='userprofile/Basic_Ui_28186_29.jpg')
+    profile_picture=models.ImageField(blank=True,upload_to='userprofile',default='userprofile/Basic_Ui__28186_29_rsefEQP.jpg')
     otp=models.CharField(max_length=6,null=True,blank=True)
     # required
     date_joined = models.DateField(auto_now_add=True)
@@ -84,13 +85,14 @@ class Docprofile(models.Model):
     state=models.CharField(max_length=50,blank=True)
     completed=models.BooleanField(default=False)
     payment=models.BooleanField(default=False)
+    slotadd=models.BooleanField(default=False)
 
 class ConsultTime(models.Model):
     user=models.ForeignKey(Account,on_delete=models.CASCADE,related_name='time')
     doctordetails=models.ForeignKey(Docprofile,on_delete=models.CASCADE,null=True)
     date=models.DateField(blank=True,max_length=50)
-    time_start=models.CharField(blank=True,max_length=50)
-    time_end=models.CharField(blank=True,max_length=30)
+    time_start=models.TimeField(blank=True,max_length=50)
+    time_end=models.TimeField(blank=True,max_length=30)
     totaltoken=models.IntegerField()
     token_booked=models.IntegerField(default=0)
     def __str__(self):
@@ -104,6 +106,7 @@ class SlotBooking(models.Model):
     patientname=models.CharField(max_length=50)
     token=models.CharField(max_length=20)
     
+    
 
     def __str__(self):
         return self.patientname
@@ -111,7 +114,7 @@ class SlotBooking(models.Model):
 
 class Packege(models.Model):
     packegename=models.CharField(max_length=50)
-    packeduration=models.CharField(max_length=50)
+    packeduration=models.IntegerField(max_length=50)
     amound=models.IntegerField()
 
 
@@ -119,4 +122,6 @@ class SelcetedPakeg(models.Model):
     user=models.ForeignKey(Account,on_delete=CASCADE)
     packege=models.ForeignKey(Packege,on_delete=CASCADE)
     date=models.DateField(auto_now_add=True)
+    enddate=models.DateField(default=None)
+    payment=models.ForeignKey(RazorpayPayment,on_delete=CASCADE)
     

@@ -13,7 +13,7 @@ const DoctorProinfoUpdate = () => {
   const api = useAxios();
   const dr = useSelector((state) => state.user.profitinalinfo);
   console.log(dr);
-  const users = useSelector((state) => state.user.user);
+  const users = useSelector((state) => state.user.docuser);
   const id = users.id;
   const initialValues = {
     regno: dr.regno,

@@ -65,7 +65,7 @@ const DoctorViewBooking = () => {
     <p className='text-xl mt-1'>Select Date </p>
     
     <select onClick={(e)=>{getbooking(e.target.value)}} className='w-32 h-8 bg-indigo-500 p-1 ml-2 rounded-lg hover:bg-white ' name="date" id="date">
-   <option value="" disabled="disabled">Choose Tagging</option>
+   <option >Choose Tagging</option>
     {Date?.map((dates, key) => (
       <option value={dates.date} >{dates.date}</option>
     ))}

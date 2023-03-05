@@ -42,6 +42,18 @@ const AdminHeader = () => {
                 >
                   View Doctor
                 </Link>
+                <Link to="/adminviewpackegepage"
+                  
+                  className="text-black  hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  View Packege
+                </Link>
+                <Link to="/adminviewselectedpackage"
+                  
+                  className="text-black  hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Selected Packege
+                </Link>
 
                
               </div>

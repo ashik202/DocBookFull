@@ -7,14 +7,17 @@ from rest_framework.views import APIView
 from accounts.models import SelcetedPakeg,Account
 from .constants import PaymentStatus
 from accounts.models import Docprofile
-
+from datetime import date
 from accounts.models import Packege
 from  django.conf import settings
 from .models import RazorpayPayment
-
+import datetime
+import environ
+env = environ.Env()
+environ.Env.read_env()
 # Get Razorpay Key id and secret for authorize razorpay client.
-RAZOR_KEY_ID = "rzp_test_gVvMwSVCxEmTZl"
-RAZOR_KEY_SECRET = "sdUyA7lcDEzKUXewVjOvLqtH"
+RAZOR_KEY_ID = env('RAZOR_KEY_ID')
+RAZOR_KEY_SECRET = env('RAZOR_KEY_SECRET')
 
 # Creating Razorpay Client instance.
 razorpay_client = razorpay.Client(auth=(RAZOR_KEY_ID, RAZOR_KEY_SECRET))
@@ -99,7 +102,7 @@ class RazorpayCallback(APIView):
                 payment_object.save()
                 plan = Packege.objects.get(pk=plan_id)
                 user = Account.objects.get(pk=user_id)
-                selcetedpakge=SelcetedPakeg(user=user,packege=plan
+                selcetedpakge=SelcetedPakeg(user=user,packege=plan,payment=payment_object,enddate=date.today()+datetime.timedelta(plan.packeduration)
 
                 )
                 selcetedpakge.save()

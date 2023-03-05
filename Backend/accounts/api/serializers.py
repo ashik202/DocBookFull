@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
-from accounts.models import Account,Docprofile,ConsultTime,SlotBooking,Packege
+from accounts.models import Account,Docprofile,ConsultTime,SlotBooking,Packege,SelcetedPakeg
+from payment.models import RazorpayPayment
 from accounts.Otpemail import * 
 
 
@@ -183,6 +184,7 @@ class SlotBookingSerializer(serializers.ModelSerializer):
         model=SlotBooking
         fields=["id","consutime","doctordetails","user","patientname","age","email"]
         
+        
         def create(self, validated_data):
             token_id = self.context.get("token_id")
             slotbooking = SlotBooking.objects.create(
@@ -195,6 +197,13 @@ class SlotBookingSerializer(serializers.ModelSerializer):
            
         )
             return slotbooking
+        
+        def validate(self,data):
+            age=data.get('age')
+            if age and age<1:
+                raise serializers.ValidationError('Enter A valid Age')
+            return age
+            
        
 class UserBokkingViewSerializer(serializers.ModelSerializer):
     doctorfirst_name=serializers.ReadOnlyField(source='doctordetails.user.first_name')
@@ -225,9 +234,22 @@ class DoctorinfoSerializer(serializers.ModelSerializer):
     profile_picture=serializers.ImageField(source='user.profile_picture')
     class Meta:
         model=Docprofile
-        fields=['id','doctor_id','doctorfirst_name',"doctorlast_name",'profile_picture','clinic_name','Addressline1','Addressline2','district','state',]
+        fields=['id','doctor_id','doctorfirst_name',"doctorlast_name",'clinic_name','Addressline1','Addressline2','district','state','profile_picture','specialization']
 
 class PakckegeSerilizer(serializers.ModelSerializer):
     class Meta:
         model=Packege
         fields='__all__'
+class RazorPAySerializer(serializers.ModelSerializer):
+    class Meta:
+        model=RazorpayPayment
+        fields="__all__"
+class PackegeViewSerializer(serializers.ModelSerializer):
+    packege=PakckegeSerilizer()
+    user=DoctorRegisterSerilizer()
+    payment=RazorPAySerializer()
+    
+    class Meta:
+        model=SelcetedPakeg
+        fields=['id','user',"payment",'date','packege','enddate']
+

@@ -37,7 +37,7 @@ const DoctorDashbord = () => {
 
 
   const dr= useSelector((state)=>state.user.profitinalinfo)
-  const profile_picture= useSelector((state) => state.user.profile);
+  const profile_picture= useSelector((state) => state.user.docprofile);
   
   
   return (
@@ -93,41 +93,41 @@ const DoctorDashbord = () => {
                 <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                     <div>
                         <p className="text-center " >regno</p>
-                        <input disabled value={dr.regno}  id="firstname" name='firstname' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center  "/>
+                        <input disabled value={dr&&dr.regno}  id="firstname" name='firstname' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center  "/>
                     </div>
 
                     <div>
                         <p className="text-center" >specialization</p>
-                        <input disabled value={dr.specialization}  className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
+                        <input disabled value={dr&&dr.specialization}  className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
                     </div>
                     <div>
                         <p className="text-center" >clinic_name</p>
-                        <input disabled value={dr.clinic_name} id="email" name='email' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
+                        <input disabled value={dr&&dr.clinic_name} id="email" name='email' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
                     </div>
 
                     <div>
                     <p className="text-center" >Addressline1</p>
-                        <input disabled value={dr.Addressline1} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
+                        <input disabled value={dr&&dr.Addressline1} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
                    
                     </div>
                     <div>
                     <p className="text-center" >Addressline2</p>
-                        <input disabled value={dr.Addressline2} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
+                        <input disabled value={dr&&dr.Addressline2} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
                    
                     </div>
                     <div>
                     <p className="text-center" >link_of_map</p>
-                        <input disabled value={dr.link_of_map} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
+                        <input disabled value={dr&&dr.link_of_map} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
                    
                     </div>
                     <div>
                     <p className="text-center" >district</p>
-                        <input disabled value={dr.district} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
+                        <input disabled value={dr&&dr.district} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
                    
                     </div>
                     <div>
                     <p className="text-center" >state</p>
-                        <input disabled value={dr.states} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
+                        <input disabled value={dr&&dr.states} id="phonenumber" name='phonenumber' type="text" className="block w-full px-4 py-2 mt-2 text-black-700  border border-0 rounded-md reg-back text-center" />
                    
                     </div>
                     
