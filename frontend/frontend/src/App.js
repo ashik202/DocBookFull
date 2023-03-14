@@ -28,6 +28,7 @@ import AdminViewPackegePage from './Pages/AdminViewPackegePage';
 import AdminAddPackege from './Pages/AdminAddPackege';
 import EditePackegePage from './Pages/EditePackegePage';
 import AdminViewSelectedPackagePage from './Pages/AdminViewSelectedPackagePage';
+import ChatPage from './Pages/ChatPage';
 
 
 
@@ -67,6 +68,8 @@ function App() {
 
       <Route path='/DoctorBook' element={<ConsultingTimeViewPage/>}/>
       <Route path='/SingleDoctorBookPage/:id' element={<SingleConsultingViewPage/>}/>
+
+      <Route path='/chat' element={<ChatPage/>}/>
       
       
       </Routes>
