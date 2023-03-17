@@ -29,6 +29,7 @@ urlpatterns = [
     path('RazorpayCallback',RazorpayCallback.as_view(),name='RazorpayCallback'),
     path('RazorpayPaymentView',RazorpayPaymentView.as_view(),name='RazorpayPaymentView'),
     path('doctor/ViewSelectedPackege/<int:id>',ViewSelectedPackege.as_view(),name='ViewSelectedPackege'),
+    path('user/singledoctorbooking',singlepageconsultingtime.as_view(),name="singlepageconsultingtime"),
 
     path('Admin/userview/',adminuserview.as_view(),name="adminuserview"),
     path('Admin/viewselectedpackege/',AdminViewSelectedPackege.as_view(),name="adminuserview"),
@@ -37,6 +38,5 @@ urlpatterns = [
     path('Admin/Packegeedit/<int:id>',PackegeEdite.as_view(),name="PackegeEdite"),
     path('otpverifivation/',optverification.as_view(),name="otpverification"),
     path('user/viewbooking',userconsultingtime.as_view(),name="viewuserconsultingtime"),
-    path('user/singledoctorbooking',singlepageconsultingtime.as_view(),name="singlepageconsultingtime"),
     
 ]

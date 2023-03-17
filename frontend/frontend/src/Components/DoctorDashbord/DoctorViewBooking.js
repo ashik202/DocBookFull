@@ -53,6 +53,11 @@ const DoctorViewBooking = () => {
         }
         
       }
+      function createConversationName(first_name) {
+        const namesAlph = [users.firstname, first_name].sort();
+        console.log(namesAlph)
+        return `${namesAlph[0]}__${namesAlph[1]}`;
+      }
   return (
     <>
     <div className="grid grid-cols-6 gap-4">
@@ -80,6 +85,7 @@ const DoctorViewBooking = () => {
   </div>
   </div>
   <hr class="h-px col-start-1 col-end-7 bg-gray-200 border-1 dark:bg-gray-700"/>
+  {console.log(Data,"lllll")}
 
   {Data?.map((datas, key) => (
 
@@ -88,7 +94,7 @@ const DoctorViewBooking = () => {
 
 
 <div className="h-62 md:h-32 w-full border-4 rounded-[15px] my-10 md:my-5 ">
-<div className="grid grid-cols-2 md:grid-cols-6   ">
+<div className="grid grid-cols-2 md:grid-cols-6">
   
   <div className="mt-3 ml-2">
     Token
@@ -114,11 +120,20 @@ const DoctorViewBooking = () => {
     <p>{datas.age}</p>
   </div>
 
-  <div className="mt-3 ">
+  <div className="mt-3 ml-2 ">
   patientname Email
     <p>{datas.email}</p>
   </div>
-  
+  <div className="mt-3 ml-10 ">
+  <Link to={`/chat/${createConversationName(datas&& datas.user_name)}`}>
+            <button
+                type="submite"
+                className=" h-10 md:m-10 border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline "
+              >
+                chat
+              </button>
+          </Link>
+    </div>
   
 </div>
 </div>

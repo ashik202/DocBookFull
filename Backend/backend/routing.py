@@ -15,4 +15,4 @@ from django.urls import path
 
 from chat.consumers import ChatConsumer
 
-websocket_urlpatterns = [path("", ChatConsumer.as_asgi())]
+websocket_urlpatterns = [path("<conversation_Name>/", ChatConsumer.as_asgi())]

@@ -41,6 +41,12 @@ https://docs.djangoproject.com/en/dev/howto/deployment/asgi/
 import os
 import sys
 from pathlib import Path
+import os
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.security.websocket import AllowedHostsOriginValidator
+from django.core.asgi import get_asgi_application
+from django_channels_jwt_auth_middleware.auth import JWTAuthMiddlewareStack
 
 from django.core.asgi import get_asgi_application
 
@@ -57,14 +63,17 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 django_application = get_asgi_application()
 
 # Import websocket application here, so apps from django_application are loaded first
-from backend import routing  # noqa isort:skip
+from chat import routing  # noqa isort:skip
 
 from channels.routing import ProtocolTypeRouter, URLRouter  # noqa isort:skip
+
+
+from chat.middleware import TokenAuthMiddleware  # noqa isort:skip
 
 
 application = ProtocolTypeRouter(
     {
         "http": get_asgi_application(),
-        "websocket": URLRouter(routing.websocket_urlpatterns),
+        "websocket": JWTAuthMiddlewareStack(URLRouter(routing.websocket_urlpatterns)),
     }
 )

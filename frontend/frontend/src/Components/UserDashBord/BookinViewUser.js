@@ -20,13 +20,19 @@ const BookinViewUser = () => {
   useEffect(() => {
     getdata();
   }, []);
+
+  function createConversationName(first_name) {
+    const namesAlph = [users.firstname, first_name].sort();
+    console.log(namesAlph)
+    return `${namesAlph[0]}__${namesAlph[1]}`;
+  }
   return (
     <>
       <div class="grid grid-cols-6 gap-4">
         <div class="col-start-2 col-span-4 ...">
           <div class="grid grid-cols-6 gap-4">
             <div class="col-start-1 col-end-3 text-2xl font-bold ">
-              Welcome User
+              Welcome {users.username}
             </div>
             <div class="col-end-7 col-span-2 text-2xl font-bold">
            
@@ -34,7 +40,7 @@ const BookinViewUser = () => {
           </div>
           {Data?.map((datas, key) => (
               <div className="h-62 md:h-32 w-full border-4 rounded-[15px] my-10 md:my-5 ">
-                <div className="grid grid-cols-2 md:grid-cols-7   ">
+                <div className="grid grid-cols-2 md:grid-cols-8  ">
                   <div className="m-3">
                     <img
                       className="h-20 w-20 rounded-[50%]"
@@ -74,6 +80,15 @@ const BookinViewUser = () => {
                     View More
                   </button>
                   </Link>
+
+                  <Link to={`/chat/${createConversationName(datas&& datas.doctorfirst_name)}`}>
+            <button
+                type="submite"
+                className="m-2 bg- h-10 md:m-10 border border-green-500 bg-green-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline-600 p-2 rounded-xl "
+              >
+                chat
+              </button>
+          </Link>
                 </div>
               </div>
             ))}

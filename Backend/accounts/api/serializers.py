@@ -253,3 +253,8 @@ class PackegeViewSerializer(serializers.ModelSerializer):
         model=SelcetedPakeg
         fields=['id','user',"payment",'date','packege','enddate']
 
+class MessageUserSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Account
+        fields = ['first_name','username']

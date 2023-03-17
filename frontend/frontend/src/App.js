@@ -29,6 +29,7 @@ import AdminAddPackege from './Pages/AdminAddPackege';
 import EditePackegePage from './Pages/EditePackegePage';
 import AdminViewSelectedPackagePage from './Pages/AdminViewSelectedPackagePage';
 import ChatPage from './Pages/ChatPage';
+import { Conversations } from './Components/Chat/Conversations';
 
 
 
@@ -69,9 +70,10 @@ function App() {
       <Route path='/DoctorBook' element={<ConsultingTimeViewPage/>}/>
       <Route path='/SingleDoctorBookPage/:id' element={<SingleConsultingViewPage/>}/>
 
-      <Route path='/chat' element={<ChatPage/>}/>
+      <Route path="/chat/:conversationName" element={<ChatPage/>}/>
+     
       
-      
+    
       </Routes>
       </BrowserRouter>
     

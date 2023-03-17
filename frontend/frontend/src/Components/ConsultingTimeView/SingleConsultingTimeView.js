@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate,Link } from 'react-router-dom';
 import axiosInstance from '../../Axios/axiosPrivate';
 import useAxios from '../../Axios/useAxios';
 import { useFormik } from 'formik';
 import { patient } from '../../schemas';
 import { useSelector } from 'react-redux';
+
 
 const initialValues = {
   patinetname: '',
@@ -17,13 +18,14 @@ const SingleConsultingTimeView = () => {
   const navigate = useNavigate();
   const api = useAxios();
   const users = useSelector((state) => state.user.user);
+  console.log(users);
   const [Data, SetData] = useState();
   const [Date, SetDate] = useState();
   const id = useParams();
   const consult_id = id['id'];
   console.log(consult_id);
   const getdata = async () => {
-    const respons = await axiosInstance.post(`user/singledoctorbooking`, {
+    const respons = await api.post(`user/singledoctorbooking`, {
       id: consult_id,
     });
     console.log(respons.data);
@@ -62,6 +64,11 @@ const SingleConsultingTimeView = () => {
       actions.resetForm();
     },
   });
+  function createConversationName(first_name) {
+    const namesAlph = [users.firstname, first_name].sort();
+    console.log(namesAlph)
+    return `${namesAlph[0]}__${namesAlph[1]}`;
+  }
 
   return (
     <>
@@ -152,6 +159,18 @@ const SingleConsultingTimeView = () => {
                 Book Apoinment
               </button>
             </form>
+            <Link to={`/chat/${createConversationName(Data&& Data.first_name)}`}>
+            <button
+                type="submite"
+                className="mt-5 bg-sky-600 p-2 rounded-xl "
+              >
+                chat
+              </button>
+          </Link>
+
+
+
+
           </div>
         </div>
       </div>

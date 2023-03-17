@@ -114,7 +114,7 @@ class SlotBooking(models.Model):
 
 class Packege(models.Model):
     packegename=models.CharField(max_length=50)
-    packeduration=models.IntegerField(max_length=50)
+    packeduration=models.IntegerField()
     amound=models.IntegerField()
 
 
