@@ -60,7 +60,7 @@ const AddPackege = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {<p className='Form_error'>{errors.packegename}</p>}
+              {errors.packegename && touched.packegename?(<p className="Form_error">{errors.packegename}</p>):null}
             </div>
           </div>
           <div className="grid grid-cols-2 m-5 justify-items-start">
@@ -74,7 +74,8 @@ const AddPackege = () => {
                 value={values.packeduration}
                   onChange={handleChange}
                   onBlur={handleBlur}
-              />{<p className='Form_error'>{errors.packeduration}</p>}
+              />
+              {errors.packeduration && touched.packeduration?(<p className="Form_error">{errors.packeduration}</p>):null}
             </div>
           </div>
           <div className="grid grid-cols-2 m-5 justify-items-start">
@@ -89,7 +90,7 @@ const AddPackege = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-              {<p className='Form_error'>{errors.amound}</p>}
+             {errors.amound && touched.amound?(<p className="Form_error">{errors.amound}</p>):null}
             </div>
           </div>
          

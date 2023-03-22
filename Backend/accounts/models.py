@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models.deletion import CASCADE
 from django.db.models.fields import DateTimeField
 from payment.models import RazorpayPayment
+from django.core.validators import MinValueValidator,MaxValueValidator
 
 
 
@@ -101,7 +102,7 @@ class SlotBooking(models.Model):
     user=models.ForeignKey(Account,on_delete=CASCADE)
     doctordetails=models.ForeignKey(Docprofile,on_delete=models.CASCADE)
     consutime=models.ForeignKey(ConsultTime,on_delete=CASCADE)
-    age=models.IntegerField()
+    age=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(100)])
     email=models.EmailField()
     patientname=models.CharField(max_length=50)
     token=models.CharField(max_length=20)
@@ -113,9 +114,9 @@ class SlotBooking(models.Model):
 
 
 class Packege(models.Model):
-    packegename=models.CharField(max_length=50)
+    packegename=models.CharField(max_length=50,unique=True)
     packeduration=models.IntegerField()
-    amound=models.IntegerField()
+    amound=models.IntegerField(validators=[MinValueValidator(1)])
 
 
 class SelcetedPakeg(models.Model):

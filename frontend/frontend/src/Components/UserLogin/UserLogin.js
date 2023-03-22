@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import './userlogin.css'
 
 import {useFormik} from "formik";
@@ -7,15 +7,16 @@ import axiosInstance from '../../Axios/axiosPrivate';
 import {  useNavigate } from 'react-router-dom';
 
 
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
-import {userdata,login,pic,docdata,docpic} from '../../redux/reducer/UserSlice';
+import {userdata,login,pic,docdata,docpic,admindata} from '../../redux/reducer/UserSlice';
 const initialValues={
     email:"",
     password:"",
 }
 
 export const UserLogin = () => {
+  
     const Navigate=useNavigate();
     const dispatch=useDispatch()
     const {values,errors,touched,handleBlur,handleChange,handleSubmit}= useFormik({
@@ -46,7 +47,7 @@ export const UserLogin = () => {
                 }
                 if (response.status===200 && response.data.is_superadmin===true)
                 {
-                dispatch(userdata(response.data));
+                dispatch(admindata(response.data));
                 dispatch(login(response.data))
                 Navigate('/Admin_userView')
                 }
@@ -59,6 +60,9 @@ export const UserLogin = () => {
             
         }
     })
+    
+
+
   return (
     <>
     <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md bg-gray-200">

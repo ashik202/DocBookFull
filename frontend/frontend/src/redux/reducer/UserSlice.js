@@ -40,6 +40,24 @@ export const userslice=createSlice({
             }
 
         },
+        admindata:(state,action)=>{
+            const admin={
+                id:action.payload.id,
+                username:action.payload.username,
+                firstname:action.payload.first_name,
+                lastname:action.payload.last_name,
+                email:action.payload.email,
+                phonenumber:action.payload.phone_number,
+                adisLoggedIn: true,
+                
+            }
+            console.log(admin)
+            return{
+                ...state,
+                admin,
+            }
+
+        },
 
         login:(state,action)=>{
             const token={
@@ -62,12 +80,22 @@ export const userslice=createSlice({
 
         },
         doclogout:(state)=>{
-            console.log("Removing token and user data...");
+            console.log("Removing token and data of doctor...");
             return {
               ...state,
               token: null,
-              user: null,
+              docuser: null,
               docisLoggedIn: false,
+            };
+
+        },
+        adminlogout:(state)=>{
+            console.log("Removing token and data of admin...");
+            return {
+              ...state,
+              token: null,
+              admin: null,
+              adisLoggedIn: false,
             };
 
         },
@@ -116,6 +144,6 @@ export const userslice=createSlice({
 
 
 
-export const{userdata,login,drinfo,pic,logout,docdata,docpic,doclogout} = userslice.actions;
+export const{userdata,login,drinfo,pic,logout,docdata,docpic,doclogout,admindata,adminlogout} = userslice.actions;
 
 export default userslice.reducer;

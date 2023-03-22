@@ -30,6 +30,9 @@ import EditePackegePage from './Pages/EditePackegePage';
 import AdminViewSelectedPackagePage from './Pages/AdminViewSelectedPackagePage';
 import ChatPage from './Pages/ChatPage';
 import { Conversations } from './Components/Chat/Conversations';
+import UserRouts from './Routes/UserRouts';
+import DoctorRoutes from './Routes/DoctorRoutes';
+import AdminRoues from './Routes/AdminRoues';
 
 
 
@@ -42,6 +45,7 @@ function App() {
         <Route path="/" exact element={<LandingPage/>}/>
 
         <Route path="/doctor_signup" element={<DoctotSignupPage/>} />
+        <Route element={<DoctorRoutes/>}>
         <Route path="/doctor_info" element={<DoctorDetailpage/>} />
         <Route path="/doctor_dashbord" element={<DoctorDashbordpage/>} />
         <Route path="/doctor_professionalinfoUpdate" element={<DoctorProinfoUpdatepage/>}/>
@@ -51,24 +55,28 @@ function App() {
         <Route path='/doctor_EditeCounsultingtime/:id' element={<EditConsultingtimePage/>}/>
         <Route path='/doctor_viewbooking' element={<DoctorViewBookingPage/>}/>
         <Route path='/doctor_viewpackage' element={<PackageSelectPage/>}/>
+        </Route>
       
       <Route path="/user_signup" element={ <UserSignupPage/> } />
       <Route path="/user_login" element={ <UserLogin/> } />
+      <Route element={<UserRouts/>}>
       <Route path="/user_dashbord" element={<UserDashbordPage/>}/>
       <Route path="/bookingviewuser" element={<BookingViewUserpage/>}/>
       <Route path="/user_profile_update" element={<UserProfileUpdatepage/>}/>
       <Route path="/Booking_conformation/:id" element={<BookingConformPage/>}/>
-
+      <Route path='/SingleDoctorBookPage/:id' element={<SingleConsultingViewPage/>}/>
+      </Route>
+      <Route element={<AdminRoues/>}>
       <Route path="/Admin_userView" element={<AdminUserViewPage/>}/>
       <Route path="/Admin_doctorView" element={<AdminDoctorViewpage/>}/>
       <Route path="/adminviewpackegepage" element={<AdminViewPackegePage/>}/>
       <Route path="/adminviewselectedpackage" element={<AdminViewSelectedPackagePage/>}/>
-
       <Route path="/adminaddpackege" element={<AdminAddPackege/>}/>
       <Route path="/admineditepackege/:id" element={<EditePackegePage/>}/>
+      </Route>
 
       <Route path='/DoctorBook' element={<ConsultingTimeViewPage/>}/>
-      <Route path='/SingleDoctorBookPage/:id' element={<SingleConsultingViewPage/>}/>
+      
 
       <Route path="/chat/:conversationName" element={<ChatPage/>}/>
      

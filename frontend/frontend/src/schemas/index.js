@@ -64,9 +64,9 @@ export const patient=Yup.object({
 })
 
 export const packege=Yup.object({
-    packegename:Yup.string().min(2).max(25).required("Enter the patinet name"),
-    packeduration: Yup.number().min(1, "Enter valid age").required("Enter the age"),
-    amound:Yup.number().min(1, "Enter valid age").required("Enter the age"),
+    packegename:Yup.string().min(2).max(25).required("Enter the Packegname name"),
+    packeduration: Yup.number().min(1, "Enter valid duration").required("Enter packege duration"),
+    amound:Yup.number().min(1, "Enter valid duration").required("Enter the amount"),
     
 
 })

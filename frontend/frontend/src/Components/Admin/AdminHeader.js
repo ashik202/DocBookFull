@@ -3,8 +3,13 @@ import React,{useState} from 'react'
 import image from '../../Images/logo.png'
 import { Link } from "react-router-dom";
 import { Transition } from "@headlessui/react";
-
+import { useSelector, useDispatch } from 'react-redux';
+import { adminlogout } from '../../redux/reducer/UserSlice';
 const AdminHeader = () => {
+  const dispatch = useDispatch();
+  const logot = () => {
+    dispatch(adminlogout());
+  };
     const [isOpen, setIsOpen] = useState(false);
   return (
     <div>
@@ -53,6 +58,13 @@ const AdminHeader = () => {
                   className="text-black  hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Selected Packege
+                </Link>
+                <Link to="/"
+                onClick={logot}
+                  
+                  className="text-black  hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Logout
                 </Link>
 
                
