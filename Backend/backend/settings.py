@@ -20,7 +20,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -182,11 +182,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
    
-   BASE_DIR /'frontend/build/static'
+   os.path.join(BASE_DIR,"frontend/build/static")
 ]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # media file
-MEDIA_URL = '/MEDIA/'
+MEDIA_URL = os.path.join(os.path.dirname(BASE_DIR),'media')
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
