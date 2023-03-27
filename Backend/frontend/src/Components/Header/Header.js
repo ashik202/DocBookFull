@@ -24,12 +24,11 @@ export const Header = () => {
                 </div></Link>
                 <div className="hidden md:block ">
                   <div className="ml-10 flex items-baseline space-x-10 my-4">
-                    <a
-                      href="/DoctorBook"
-                      className="text-black  hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
+                    <Link to="/DoctorBook"
+                      className="text-black  hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" >
+                    
                       Book Apoinment
-                    </a>
+                      </Link>
   
                     <Link to="/user_login"
                       
